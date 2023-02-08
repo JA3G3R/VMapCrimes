@@ -4,7 +4,6 @@ var cookieParser = require('cookie-parser');
 
 const connectToDB = require('.\\db.js');
 const adminRoutes = require('./routes/admin');
-const uploadRoute = require('./routes/Upload')
 
 require('dotenv').config();
 connectToDB();
@@ -51,5 +50,3 @@ onExpired : async (req,err)=> {
 }}).unless({path: ['/api/v1/admin/adminLogin']}));
 
 app.use('/api/v1/admin',adminRoutes);
-
-app.use('/api/data',uploadRoute)
