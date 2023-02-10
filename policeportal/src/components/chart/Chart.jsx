@@ -23,13 +23,13 @@ const data = [
     }
 ]
 
-function chart({aspect, title}) {
+function chart({ title}) {
     return (
         <div className="chart">
             <div className="title">{title}</div>
-            <ResponsiveContainer width="100%" aspect={aspect}>
+            <ResponsiveContainer width="100%" height="90%">
                 <AreaChart width={760} height={200} data={data}
-                    margin={{ top: 10, right: 30, left: 0, bottom: 20 }}>
+                    margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
                     <defs>
                         <linearGradient id="Total" x1="0" y1="0" x2="0" y2="1">
                             <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />

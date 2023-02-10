@@ -1,5 +1,6 @@
+import Mainwebsite from "./Pages/mainwebsite/Mainwebsite";
 import Home from "./Pages/home/Home";
-import Login from "./Pages/login/Login";
+import Login from "./login/Login"
 import {
   BrowserRouter,  Routes,  Route} from "react-router-dom";
 import Single from "./Pages/single/Single";
@@ -21,8 +22,10 @@ function App() {
     <div className={ darkMode ? "app dark": "app"}>
       <BrowserRouter>
         <Routes>
+          
           <Route path="/">
-            <Route index element={<Home />} />
+            <Route index element={<Mainwebsite/>}/>
+            <Route path="Portal" element={<Home />} />
             <Route path="login" element={<Login/>} />
             <Route path="location" element={<Location/>} />
             <Route path="fir" element={<Fir/>} />

@@ -5,6 +5,7 @@ const cors = require('cors')
 
 const connectToDB = require('.\\db.js');
 const adminRoutes = require('./routes/admin');
+const uploadRoute = require('./routes/upload')
 
 require('dotenv').config();
 connectToDB();
@@ -46,6 +47,10 @@ app.use(ejwt({secret: process.env.JWT_SECRET_KEY,algorithms : ['HS256'],getToken
 }).unless({path: ['/api/v1/admin/adminLogin']}));
 
 app.use('/api/v1/admin',adminRoutes);
+
+app.use('/api/data', uploadRoute);
+
+app.use('/api/data', uploadRoute);
 
 // Handle generic bad request errors
 app.use((err, req, res, next) => { 
