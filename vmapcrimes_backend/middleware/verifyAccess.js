@@ -12,8 +12,9 @@ const verifyAccess = (perms = {"READ_PERMS":['None'] , "ACTION_PERMS" : ['None']
             return res.status(401).json({status:"failure",message : "Not Authenticated"})
         }
         let userWithRole = await users.findOne({_id : req.auth.id});
-        console.log("Access from user "+userWithRole.name)
+        
         if(userWithRole) {
+            console.log("Access from user "+userWithRole.name)
             let userRoleId = userWithRole.role;
             let userRole = await roles.findOne(({_id : userRoleId}));
             if(userRole.name !== "admin") { 
