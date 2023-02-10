@@ -8,8 +8,7 @@ const UserSchema = new Schema({
     "address" : { type : String , required : true},
     "phone" : {type : String , unique : true, required : true},
     "password" : {type:  String, required: true},
-    "role" : {type : String, default : 'public'}
-
+    "role" : {type: mongoose.Schema.Types.ObjectId ,ref : 'roles'}
 })
 
 module.exports = mongoose.model('user',UserSchema);
