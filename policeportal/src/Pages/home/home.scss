@@ -1,7 +1,7 @@
 .home{
     display: flex;
     background-color: rgb(255, 255, 255);
-    
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
     .homeContainer{
                 
@@ -9,13 +9,13 @@
 
         .widgets, .charts{
             display: flex;
-            padding: 20px;
+            padding: 1.4em;
             gap: 20px;
 
             
         }
         .charts{
-            padding: 10px 20px;
+            padding: 1.1em 1.2em;
             
         }
 
@@ -30,7 +30,7 @@
 
             .listTitle{
                 
-                font-weight: 600;
+                font-weight: 545;
                 color: gray;
                 margin-bottom: 15px;
             }

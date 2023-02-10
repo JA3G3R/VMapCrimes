@@ -1,7 +1,7 @@
 import "./single.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
-import Chart from "../../components/chart/Chart";
+
 import Datatable from "../../components/datatable/Datatable";
 const Single= () => {
   return (
@@ -38,9 +38,7 @@ const Single= () => {
               </div>
             </div>
           </div>
-          <div className="right">
-            <Chart aspect={2.5/1} title="User Report"/>
-          </div>
+          <div className="right"></div>
         </div>
         <div className="bottom">
           <Datatable/>
