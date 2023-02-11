@@ -6,6 +6,7 @@ const connString = process.env.DATABASE_URL+(process.env.DATABASE || 'test');
 const mongoose = require('mongoose');
 const bcrypt =  require('bcrypt');
 
+const { makeid } = require('./util')
 function connectToDB() {
         return new Promise(
                 (res,rej) => {
@@ -15,6 +16,7 @@ function connectToDB() {
 
 }
 
+    
 //Create collection if not exists (users,roles) initialize  admin and public roles and an admnin user with password defined in configuration file
 
 const init = async( ) => {
@@ -42,6 +44,7 @@ const init = async( ) => {
                 let defAdminExists = await User.findOne({name: config.DEFAULT_ADMIN_NAME})
                 //create admin
                 // calculate password hash
+
                 const salt = await bcrypt.genSalt(10);
                 const hashedPass = await bcrypt.hash(config.DEFAULT_ADMIN_PASS,salt);
                 if(!defAdminExists) {
@@ -52,7 +55,8 @@ const init = async( ) => {
                                 address: config.DEFAULT_ADMIN_ADDRESS,
                                 email : config.DEFAULT_ADMIN_EMAIL,
                                 phone: config.DEFAULT_ADMIN_PHONE,
-                                role : adminRole
+                                role : adminRole,
+                                private_key: makeid(7)
                         })
 
                 }

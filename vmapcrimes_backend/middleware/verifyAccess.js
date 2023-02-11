@@ -6,8 +6,8 @@ const roles =  require("../models/Roles")
 
 
 const verifyAccess = (perms = {"READ_PERMS":['None'] , "ACTION_PERMS" : ['None']}) => { 
-    
     return async (req,res,next) => {
+
         if (!req.auth || !req.auth.id || !(typeof req.auth.id === "string" ) || !(/^[a-zA-Z0-9]+$/.test(req.auth.id)) ) {
             return res.status(401).json({status:"failure",message : "Not Authenticated"})
         }

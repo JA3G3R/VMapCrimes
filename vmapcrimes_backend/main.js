@@ -2,10 +2,13 @@ const express = require('express');
 const { expressjwt : ejwt } = require("express-jwt");
 var cookieParser = require('cookie-parser');
 const cors = require('cors')
+const  {makeSecretKey} = require("./util")
 
 const connectToDB = require('.\\db.js');
-const adminRoutes = require('./routes/admin');
-const uploadRoute = require('./routes/upload')
+const authRoutes = require('./routes/authRoutes');
+const usersRoutes = require('./routes/usersRoutes');
+const rolesRoutes = require('./routes/rolesRoutes');
+const uploadRoutes = require('./routes/firRoutes')
 
 require('dotenv').config();
 connectToDB();
@@ -33,7 +36,7 @@ app.listen(port, () => {
 
 
 
-app.use(ejwt({secret: process.env.JWT_SECRET_KEY,algorithms : ['HS256'],getToken: (req) => {
+app.use(ejwt({secret: makeSecretKey,algorithms : ['HS256'],getToken: (req) => {
   if(!req.cookies || !req.cookies['auth-token']) {
       
       return null;
@@ -44,14 +47,15 @@ app.use(ejwt({secret: process.env.JWT_SECRET_KEY,algorithms : ['HS256'],getToken
   
 //     throw "Session Token expired"
 //   }
-}).unless({path: ['/api/v1/admin/adminLogin']}));
+}).unless({path: ['/api/auth/login']}));
 
-app.use('/api/v1/admin',adminRoutes);
+app.use('/api/roles',rolesRoutes);
 
-app.use('/api/data', uploadRoute);
+app.use('/api/users', usersRoutes);
 
-app.use('/api/data', uploadRoute);
+app.use('/api/data', uploadRoutes);
 
+app.use('/api/auth',authRoutes)
 // Handle generic bad request errors
 app.use((err, req, res, next) => { 
   if (err.status === 401 ) {
@@ -64,7 +68,7 @@ app.use((err, req, res, next) => {
         return res.status(401).json({status:"failure",message:"JWT Token absent or invalid,please login again"});
 
       }
-      
+  
     
     }
     return res.status(400).send("Bad request");
