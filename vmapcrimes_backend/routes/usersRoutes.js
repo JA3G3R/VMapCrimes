@@ -5,6 +5,7 @@ const dotenv= require('dotenv');
 const mongoose = require("mongoose");
 
 // custom imports
+const config = require('../config/defaultConfig')
 
 //initializing some stuff
 const router = express.Router();
@@ -12,7 +13,7 @@ const user= require('../models/User');
 const Role= require('../models/Roles');
 
 // importing npm provided middlewares
-const { body, validationResult,param } = require('express-validator');
+const { body, validationResult } = require('express-validator');
 
 // importing custom middlewares
 const verifyAccess = require('../middleware/verifyAccess');
@@ -340,4 +341,20 @@ router.get("/fetchUserCount",verifyAccess(),async (req,res) =>
    }
 )
 
+// GET to /api/roles/fetchPermissions
+
+router.get("/fetchPermissions",async (req,res) => {
+    const uid = req.auth.id;
+    const authuser = await user.findOne({_id: uid})
+    if(!authuser) {
+        return res.status(404).json({status:'failure',message:"User does not exist"})
+    }
+    const userrole = await Role.findOne({_id:authuser.role})
+    if(!userrole) {
+        return res.status(404).json({status:'failure',message:"User has been assigned a non-existing role"})
+    }
+    console.log(userrole)
+    return res.json({rperms : userrole.read_perms,aperms : userrole.action_perms})
+
+})
 module.exports = router

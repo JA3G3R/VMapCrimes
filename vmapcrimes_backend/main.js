@@ -34,8 +34,6 @@ app.listen(port, () => {
   console.log(`VMapCrimes app is listening on port ${port}`);
 })
 
-
-
 app.use(ejwt({secret: makeSecretKey,algorithms : ['HS256'],getToken: (req) => {
   if(!req.cookies || !req.cookies['auth-token']) {
       
@@ -69,7 +67,6 @@ app.use((err, req, res, next) => {
 
       }
   
-    
     }
     return res.status(400).send("Bad request");
   }

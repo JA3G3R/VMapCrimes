@@ -78,10 +78,8 @@ router.delete('/deleteRole/:id',verifyAccess(),async (req,res) => {
     var id = req.params.id.toLowerCase();
     let toDelete;
     try {
-        console.log("User ID is : "+req.auth.id)
         var reqUser = await user.findOne({_id:req.auth.id})
         var reqUserRole = reqUser.role.toString()
-        console.log(`${reqUserRole} === ${req.params.id} :`+ (reqUserRole === req.params.id))
         if ( reqUserRole == req.params.id) {
                 return res.status(400).json({status:"failure",message:"Cannot delete role, authenticated user has the same role"})
         }

@@ -28,6 +28,7 @@ const verifyAccess = (perms = {"READ_PERMS":['None'] , "ACTION_PERMS" : ['None']
                     return res.status(401).json({status:"failure",message:"Insufficient Permissions"})
 
                 }
+            
             }
             next();
         }else{
