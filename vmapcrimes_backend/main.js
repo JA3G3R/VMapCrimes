@@ -9,6 +9,7 @@ const authRoutes = require('./routes/authRoutes');
 const usersRoutes = require('./routes/usersRoutes');
 const rolesRoutes = require('./routes/rolesRoutes');
 const uploadRoutes = require('./routes/firRoutes')
+const fetchRoutes = require('./routes/fetchRoutes')
 
 require('dotenv').config();
 connectToDB();
@@ -55,7 +56,10 @@ app.use('/api/users', usersRoutes);
 
 app.use('/api/data', uploadRoutes);
 
-app.use('/api/auth',authRoutes)
+app.use('/api/auth',authRoutes);
+
+app.use(('/api/fetch',fetchRoutes))
+
 // Handle generic bad request errors
 app.use((err, req, res, next) => { 
   if (err.status === 401 ) {
