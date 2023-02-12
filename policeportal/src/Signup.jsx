@@ -53,7 +53,6 @@ function Signup() {
               <div className='mb-4'>
                 <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Terms & Condition' />
               </div>
-
               <MDBBtn className='mb-4' size='lg'>Register</MDBBtn>
             </MDBCol>
 
