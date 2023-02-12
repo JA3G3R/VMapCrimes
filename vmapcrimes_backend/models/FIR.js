@@ -1,27 +1,20 @@
 const mongoose = require('mongoose');
 const {Schema} = mongoose;
 const FIRSchema = new Schema({
-    FIR_Number:{
-        type: Number,
-        require: true
-    },
+    
     Date:{
         type: Date,
         default: Date.now
     },
-    Police_Station_ID:{
-        type: Number,
-        require: true
-    },
-    Created_At:{
+    // Police_Station_ID:{
+    //     type: Number,
+    //     require: true
+    // },
+    Victim_Name:{
         type: String,
         require: true
     },
-    Name:{
-        type: String,
-        require: true
-    },
-    Parent_Name:{
+    Relatives:{
         type: String,
         require: true
     },
@@ -49,6 +42,10 @@ const FIRSchema = new Schema({
         type: String,
         require: true
     },
+    Incident_Highlight: {
+        type: String,
+        required: true
+    },
     Incident_details:{
         type: String,
         require: true
@@ -67,7 +64,16 @@ const FIRSchema = new Schema({
             type: [Number],
             required: true
         }
-    }
+    },
+    Crime_City: {
+        type : String,
+        required: true
+    },
+    Crime_State: {
+        type : String,
+        required: true
+    },
+    Timestamp_of_Crime: {type:Date,required: true}
 });
 FIRSchema.index({ Location: '2dsphere' });
 module.exports = mongoose.model('FIR', FIRSchema)

@@ -8,7 +8,7 @@ const connectToDB = require('.\\db.js');
 const authRoutes = require('./routes/authRoutes');
 const usersRoutes = require('./routes/usersRoutes');
 const rolesRoutes = require('./routes/rolesRoutes');
-const uploadRoutes = require('./routes/firRoutes')
+const firRoutes = require('./routes/firRoutes')
 const fetchRoutes = require('./routes/fetchRoutes')
 
 require('dotenv').config();
@@ -52,7 +52,7 @@ app.use('/api/roles',rolesRoutes);
 
 app.use('/api/users', usersRoutes);
 
-app.use('/api/data', uploadRoutes);
+app.use('/api/data', firRoutes);
 
 app.use('/api/auth',authRoutes);
 

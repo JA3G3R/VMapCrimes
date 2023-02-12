@@ -1,8 +1,12 @@
 const express = require('express');
+const verifyAccess = require('../middleware/verifyAccess');
 const FIR = require("../models/FIR");
 const router = express.Router();
 
+// Returns an array of form [fir_id,lat,lng]
+
 router.get('/fetchFIR', (req, res) => {
+
     const dateBefore = req.query.dateBefore;
     const dateAfter = req.query.dateAfter;
     const crimeType = req.query.crimeType;
@@ -15,11 +19,11 @@ router.get('/fetchFIR', (req, res) => {
     let query = FIR.find({});
 
     if(dateBefore) {
-        query.where('Created_At').lte(dateBefore);
+        query.where('Date').lte(dateBefore);
     }
 
     if(dateAfter) {
-        query.where('Created_At').gte(dateAfter);
+        query.where('Date').gte(dateAfter);
     }
 
     if(crimeType) {
@@ -46,9 +50,13 @@ router.get('/fetchFIR', (req, res) => {
         if(error) {
             return res.status(500).json({ error: error });
         }
-        res.send(result);
+        const {Location,_id} = result;
+        const toSend = [_id,...Location.coordinates]
+        res.json({status:"success",data:toSend,message:"Fetched FIRs, Success!"})
     });
 });
+
+
 
 module.exports = router;
 

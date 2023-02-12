@@ -31,6 +31,7 @@ const verifyAccess = (perms = {"READ_PERMS":[""] , "ACTION_PERMS" : [""]}) => {
                 }
             
             }
+            console.log('heheh')
             next();
         }else{
 
