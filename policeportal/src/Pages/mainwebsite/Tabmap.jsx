@@ -1,16 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./tabmap.css";
+import SearchIcon from '@mui/icons-material/Search';
+
+
+
+import { Country, State, City }  from 'country-state-city';
+
+
+// Import Interfaces`
+
 
 function Tabmap() {
+  
+  const [cities, setCities]= useState([{name:''}])
+  const [state, setState] =useState()
+  const [city, setCity] =useState()
   const [toggleState, setToggleState] = useState(1);
-
+  const code= [[121]] 
+  const states= State.getStatesOfCountry("IN")
   const toggleTab = (index) => {
     setToggleState(index);
   };
+useEffect(()=>{ console.log("state is now: "+state);  setCities(City.getCitiesOfState('IN', state));
+},[state])
+const stateSelected = async (e)=>{
+  var stateCode = e.target.value
+  setState(stateCode)
+}
 
   return (
-    <div className="container">
-      <div className="bloc-tabs">
+    <div className="containing" style={{position:""}}>
+      <div className="bloc-tabs" >
         <button
           className={toggleState === 1 ? "tabs active-tabs" : "tabs"}
           onClick={() => toggleTab(1)}
@@ -27,6 +47,12 @@ function Tabmap() {
           className={toggleState === 3 ? "tabs active-tabs" : "tabs"}
           onClick={() => toggleTab(3)}
         >
+          <span>Filters</span>
+        </button>
+        <button
+          className={toggleState === 4 ? "tabs active-tabs" : "tabs"}
+          onClick={() => toggleTab(4)}
+        >
           <span>Timeline</span>
         </button>
       </div>
@@ -37,11 +63,11 @@ function Tabmap() {
         >
           <h2>Reports</h2>
           <hr />
-          <p>
+          <span>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati
             praesentium incidunt quia aspernatur quasi quidem facilis quo nihil
             vel voluptatum?
-          </p>
+          </span>
         </div>
 
         <div
@@ -49,25 +75,100 @@ function Tabmap() {
         >
           <h2>Analytics</h2>
           <hr />
-          <p>
+          <span>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente
             voluptatum qui adipisci.
-          </p>
+          </span>
         </div>
 
         <div
           className={toggleState === 3 ? "content  active-content" : "content"}
         >
+          <h2>Filters</h2>
+          <hr />
+          <span>
+            <form >
+            <select className="filter">
+              <option key="1">Choose options</option>
+              <option key="2">Murder</option>
+              <option key="3">Kidnapping</option>
+              <option key="4">Robbery</option>
+              <option key="5">Harrasment</option>
+            </select>
+            <br/>
+            <br/>
+            <div className="Searchtype">
+            <h2>Search <SearchIcon style={{fontSize:"20px"}}/><hr /></h2>
+            
+            <input type="search" placeholder="Search here.." className="inputsearch"/>
+            </div>
+            <div className="dates">
+              <label style={{display: "grid", fontSize:"18px"}}>Date Before:<input type= "date" className="dd_mm"/></label>
+              <label style={{display: "grid",fontSize:"18px"}}>Date After:<input type= "date" className="dd_mm"/></label>
+            </div>
+            <div className="codes">
+              <label style={{display: "grid",fontSize:"18px"}}>Zipcode<input type="number" placeholder="zipcode" className="dd_mm"/></label>
+              
+            </div><br/>
+            <div className="Searchtype">
+              <h2>Address Search <SearchIcon style={{fontSize:"20px"}}/><hr /></h2>
+              
+              <input type="text" placeholder="Search here.." className="inputsearch"/>
+            </div>
+            <br/>
+            <div className="city">
+            <label style={{fontSize:"20px", display:"grid",fontWeight:"500" }}>State<br/>
+              <select  className="state_city" onChange={stateSelected}><option value="">Select a State</option> {states.map(stateItem => (
+                <option key={stateItem.isoCode} id={stateItem.isoCode} value={stateItem.isoCode }>{stateItem.name}</option>
+              ))}
+              </select>
+            </label><br/>
+            <label style={{fontSize:"20px", fontWeight:"500" }}>City<br/>
+              <select className="state_city" onChange={(e)=>{setCity(e.target.value)}}>{cities ?  
+              <option value="">Select a City</option>
+              :null } {cities.map(city => (
+                <option key={city.id} value={city.name}>{city.name}</option>
+              ))}
+              </select>
+            </label><br/><br/>
+
+            </div>
+            <span>
+                <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                  Penal Code
+                </a>
+                 
+            </span>
+               <div class="collapse" id="collapseExample">
+                 <div class="card card-body">
+                  <input type="text" placeholder="penal Code" style={{textDecoration:"none", border:"2px solid blue", padding:"5px", fontSize:"1rem", borderRadius:"2px"}}/>
+                  121, 141, 144, 146, 147, 148, 151, 153-A, 295-A, 268, 302, 304-B, 307, 322, 324, 351, 354, 509, 498-A, 363, 364, 365, 366, 376, 379, 380, 383, 390, 391, 392,395, 396, 397,411, 420, 441, 442, 447,448,454, 457, 465, 467,468,470,471, 489-A, 504,506
+                 </div>
+               </div>
+
+
+            
+            
+
+            </form>
+            </span>
+          
+          
+        </div>
+
+        <div
+          className={toggleState === 4 ? "content  active-content" : "content"}
+        >
           <h2>Timeline</h2>
           <hr />
-          <p>
+          <span>
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos sed
             nostrum rerum laudantium totam unde adipisci incidunt modi alias!
             Accusamus in quia odit aspernatur provident et ad vel distinctio
             recusandae totam quidem repudiandae omnis veritatis nostrum
             laboriosam architecto optio rem, dignissimos voluptatum beatae
             aperiam voluptatem atque. Beatae rerum dolores sunt.
-          </p>
+          </span>
         </div>
       </div>
     </div>

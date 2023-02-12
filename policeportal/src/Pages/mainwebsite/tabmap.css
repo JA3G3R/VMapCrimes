@@ -8,21 +8,28 @@
     background: #fff;
   }
   
-  .container {
+  .containing {
     display: flex;
     flex-direction: column;
     position: relative;
-    width: 400px;
-    height: 530px;
+    width: 30rem;
+    height: 70rem;
     background: #50cf56;
     margin-left: 1.5rem;
+    margin-right: 0;
     word-break: break-all;
     border: 2px solid rgba(0, 0, 0, 0.274);
-    border-right: none;
+    
     border-bottom: none;
     overflow: hidden;
   }
   
+  .filter{
+    outline: none;
+    padding: 8px;
+    font-size: 15px;
+    
+  }
   .bloc-tabs {
     display: flex;
   }
@@ -58,8 +65,67 @@
     height: 5px;
     background: rgb(88, 147, 241);
   }
+  .filter{
+    border: 2px solid rgb(11, 86, 246);
+    border-radius: 3.5px;
+    
+  }
+  .inputsearch{
+    padding: 10px;
+    color: #000;
+    outline: none;
+    text-decoration: none;
+    border: 2px solid blue;
+    border-radius: 4px;
+    align-items: center;
+    justify-content: center;
+    
+  }
+  .Searchtype{
+    align-items: center;
+    justify-content: center;
+    
+  }
+  .codes{
+    display: flex;
+    padding: 1rem 0;
+    gap: 6rem;
+    font-weight: 450;
+  }
+  .city{
+    padding: 5px;
+    
+    width: 100%;
+  }
+  .state_city{
+    border: none;
+    border-bottom: 1.5px solid rgb(5, 108, 251);
+    outline: none;
+    padding: 5px;
+    text-transform: uppercase;
+    font-size: 15px;
+    width: 100%;
+  }
   
-  
+  .dates{
+    display: flex;
+    padding: 20px 0;
+    gap: 8rem;
+    font-weight: 450;
+    
+    
+
+  }
+  .dd_mm{
+    border: none;
+    border-bottom: 1.5px solid rgb(5, 108, 251);
+    outline: none;
+    padding: 5px;
+    text-transform: uppercase;
+    font-size: 15px;
+    
+    
+  }
   
   button {
     border: none;
@@ -68,6 +134,7 @@
   span{
     font-weight: bold;
     font-size: 1rem;
+    padding: 5px;
   }
   .content-tabs {
     flex-grow : 1;
@@ -75,24 +142,31 @@
   .content {
     background: white;
     padding: 20px;
+    
     width: 100%;
     height: 100%;
     display: none;
   }
   .content h2 {
-    padding: 0px 0 5px 0px;
-    font-weight: bold;
+    font-size: 18px;
+    padding: 0px 0px;
+    font-weight: 450;
+
   }
   .content hr {
     width: 100px;
     height: 2px;
     background: #222;
     margin-bottom: 5px;
+    padding: 0px 0px;
   }
   .content p {
     width: 100%;
     height: 100%;
+    display: block;
   }
   .active-content {
     display: block;
   }
+
+  

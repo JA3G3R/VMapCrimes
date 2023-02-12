@@ -35,7 +35,7 @@ function Mainwebsite() {
     
     <div className='mainhome'>
       
-      <div className="Navbar">
+      <div className="Navbar" style={{position:"fixed", padding:"1rem", width:"100%", zIndex:"1111"}}>
         <div className="wrapper">
         <div className="Welcome">VMapCrimes</div>
           
@@ -55,9 +55,9 @@ function Mainwebsite() {
             
           </div>
         </div>
-      </div>
+      </div><br/>
       <div className="mapcontain">
-      <MapContainer center={center} zoom={13} maxZoom={20} scrollWheelZoom={true} style={{height: "80vh", width:"65vw", padding: "5rem" }}>
+      <MapContainer center={center} zoom={13} maxZoom={20} scrollWheelZoom={true} style={{height: "90vh", width:"60vw", padding: "5rem", position:"fixed",  }}>
       <MarkerClusterGroup
       chunkedLoading
       >
@@ -92,13 +92,15 @@ function Mainwebsite() {
       />
       
     </MapContainer>
-    <div className="mapright">
+    
+      </div>
+      <div className="mapright">
       <div className="right_sidebar">
-         
-        <Tabmap/>
+      <Tabmap/>
+        
       </div>
     </div>
-      </div>
+      
     </div>
   )
 }
