@@ -2,7 +2,7 @@ var config = {};
 
 config.CURRENTLY_DEFINED_ROLES = 
     {
-        "ACTION_ROLES" :
+      ACTION_ROLES :
      [
        
         "CREATE_USER", // Ability to Create new Users
@@ -14,10 +14,12 @@ config.CURRENTLY_DEFINED_ROLES =
         "CREATE_FIR",
         "EDIT_FIR",
      ],
-        "READ_ROLES" :
+        READ_ROLES :
       [
             "READ_ALL_USERS", // Read Roles and Names of all users
             "READ_FULL_USER", // Address, Phone number and all other details of other users
+            "READ_ALL_ROLES",
+            "READ_FULL_ROLE",
             "CRIME_TYPE",
             "DATE_OF_CRIME",
             "CRIME_USED_WEAPONS",

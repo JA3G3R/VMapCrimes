@@ -71,7 +71,7 @@ async (req,res) => {
 
 // DELETE to http://localhost:5001/api/v1/admin/deleteRole/<userId>
 
-router.delete('/deleteRole/:id',verifyAccess(),async (req,res) => {  
+router.delete('/deleteRole/:id',verifyAccess({ACTION_PERMS:["DELETE_ROLE"]}),async (req,res) => {  
     if (typeof req.params.id !== 'string') {
         return res.status(400).json({status:"failure",message: "Provide a valid ID"});
     }
@@ -109,7 +109,7 @@ router.delete('/deleteRole/:id',verifyAccess(),async (req,res) => {
 
 // PUT to http://localhost:5001/api/v1/admin/updateRole
 
-router.put('/updateRole',verifyAccess(), 
+router.put('/updateRole',verifyAccess({ACTION_PERMS:["UPDATE_ROLE"]}), 
 [
     body('name').optional().isLength({min:5,max:20}).withMessage("Name of aRolemust be betweem 5-20 characters long"),
     
@@ -156,7 +156,7 @@ async (req,res) => {
 
 // GET to http://localhost:5001/api/v1/admin/fetchRole/<roleID>
 
-router.get('/fetchRole/:id',verifyAccess(), 
+router.get('/fetchRole/:id',verifyAccess({READ_PERMS:["READ_FULL_ROLE"]}), 
 async (req,res) => {
         // console.log(req.params.id+"length is "+req.params.id.length)
         var lengthChecks= (req.params.id.length==24)
@@ -193,7 +193,7 @@ async (req,res) => {
 
 // GET to http://localhost:5001/api/v1/admin/fetchAllRoles
 
-router.get('/fetchAllRoles',verifyAccess(), async (req,res) => {
+router.get('/fetchAllRoles',verifyAccess({READ_PERMS:["READ_ALL_ROLES"]}), async (req,res) => {
     try {
         let fetchArray = await Role.find();
         return res.json({roles:fetchArray})

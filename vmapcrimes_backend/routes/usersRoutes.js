@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 
 // custom imports
 const config = require('../config/defaultConfig')
-
+const {makeid } = require("../util")
 //initializing some stuff
 const router = express.Router();
 const user= require('../models/User');
@@ -28,7 +28,7 @@ router.post('/createUser',
 
     // TODO : create the middleware
     // middleware to check if the user is admin
-    verifyAccess(),
+    verifyAccess({ACTION_PERMS:["CREATE_USER"]}),
     [
 
         // TODO : add proper sanitization to name and address fields
@@ -86,6 +86,7 @@ router.post('/createUser',
                 address: req.body.address,
                 password: hashedPass,
                 phone: req.body.phone,
+                private_key: makeid(7)
             }
             let roleName = req.body.role 
             newUser.role = await Role.findOne({name : roleName?roleName:'public'})
@@ -114,7 +115,7 @@ router.post('/createUser',
 // ROUTE 4
 // GET to http://localhost:5001/api/user/fetchAllUsers 
 
-router.get('/fetchAllUsers',verifyAccess(), async (req,res) => {
+router.get('/fetchAllUsers',verifyAccess({READ_PERMS:["READ_ALL_USERS"]}), async (req,res) => {
         
     try {
         var allUsers = await user.find()
@@ -149,7 +150,7 @@ router.get('/fetchAllUsers',verifyAccess(), async (req,res) => {
 // ROUTE 5
 // GET to http://localhost:5001/api/user/fetchUser/<userId>
 
-router.get('/fetchUser/:id',verifyAccess(),async (req,res) => {
+router.get('/fetchUser/:id',verifyAccess({READ_PERMS:['READ_FULL_USER']}),async (req,res) => {
 const id = req.params.id;
 if(!id) {
     return res.status(400).json({status:"failure",message: "Missing ID parameter"})
@@ -182,7 +183,7 @@ return res.json({_id: _id,name :name,email:email,address:address,phone:phone,rol
 // ROUTE 6
 // DELETE to http://localhost:5001/api/user/deleteUser/<userId>
 
-router.delete('/deleteUser/:id',verifyAccess(),async (req,res) => {  
+router.delete('/deleteUser/:id',verifyAccess({ACTION_PERMS:"DELETE_USER"}),async (req,res) => {  
     if (typeof req.params.id !== 'string') {
         return res.status(400).json({status:"failure",message: "Provide a valid ID"});
     }
@@ -222,7 +223,7 @@ router.delete('/deleteUser/:id',verifyAccess(),async (req,res) => {
 // ROUTE 8
 // PUT to http://localhost:5001/api/user/updateUser
 
-router.put('/updateUser',verifyAccess(),
+router.put('/updateUser',verifyAccess({ACTION_PERMS:"UPDATE_USER"}),
 [
     body("_id").isAlphanumeric().withMessage("Id should be a string value").isLength({min:24,max:24}).withMessage("Id should be 24 characters in length"),
    // check if email is a valid email address
@@ -284,7 +285,7 @@ router.put('/updateUser',verifyAccess(),
 // ROUTE 13
 // DELETE to http://localhost:5001/api/user/deleteUsers with a body containing an array of ids to delete
 
-router.delete('/deleteUser/:id',verifyAccess(),async (req,res) => {  
+router.delete('/deleteUsers',verifyAccess({ACTION_PERMS:"DELETE_USER"}),async (req,res) => {  
     if(!(Array.isArray(req.body.ids))) {
         return res.status(400).json({status: "failure",message: "Please send ids as array"});
     }
@@ -320,7 +321,7 @@ router.delete('/deleteUser/:id',verifyAccess(),async (req,res) => {
 
 // GET to /api/user/fetchUserCount
 
-router.get("/fetchUserCount",verifyAccess(),async (req,res) => 
+router.get("/fetchUserCount",verifyAccess({READ_PERMS:"READ_ALL_USERS"}),async (req,res) => 
 {
     console.log("In fetch user count")
     try{
@@ -341,20 +342,30 @@ router.get("/fetchUserCount",verifyAccess(),async (req,res) =>
    }
 )
 
-// GET to /api/roles/fetchPermissions
-
-router.get("/fetchPermissions",async (req,res) => {
+// GET to /api/roles/fetchAuthUser
+// res = {name:<username>,id:<userid>,role:<roleid>,roleName:<roleName>,perms:{rperms:[],aperms:[]}}
+router.get("/fetchAuthUser",async (req,res) => {
     const uid = req.auth.id;
     const authuser = await user.findOne({_id: uid})
     if(!authuser) {
         return res.status(404).json({status:'failure',message:"User does not exist"})
     }
     const userrole = await Role.findOne({_id:authuser.role})
+
     if(!userrole) {
         return res.status(404).json({status:'failure',message:"User has been assigned a non-existing role"})
     }
-    console.log(userrole)
-    return res.json({rperms : userrole.read_perms,aperms : userrole.action_perms})
+    var {name,email,address,phone,password,} = authuser
+    const uname = name
+    var {name,_id,read_perms,action_perms} = userrole
+    var rolename = name
+    var roleid= _id
+    const toSend = {
+       uid, uname,email,address,phone,roleid,rolename,read_perms,action_perms
+    }
+    console.log(toSend)
+    return res.json(toSend)
 
 })
+
 module.exports = router

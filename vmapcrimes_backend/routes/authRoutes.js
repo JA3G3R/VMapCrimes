@@ -55,9 +55,7 @@ router.post('/login',
             }
         }
 
-        if(userRole.name !== "admin"){
-            return res.status(401).json({status:"failure",message:"User is not an admin!"})
-        }
+       
         var passwordMatches = await bcrypt.compare(req.body.password,loginuser.password)
         if(!passwordMatches) {
             return res.status(404).send("Please enter valid Credentials");
@@ -73,7 +71,6 @@ router.post('/login',
 
         const jwtSessionTok = await jwt.sign(payload,process.env.JWT_SECRET_KEY+loginuser.private_key,{ algorithm : 'HS256',expiresIn: 2*3600});
         console.log(jwtSessionTok);
-        
         return res.json({status:"success",result: {message:"Logged in successfully",auth:jwtSessionTok}})
     
     }
@@ -84,9 +81,10 @@ router.post('/login',
 // [ 🔴 NEED ADMIN ACCESS ]
 
 
-
 router.get('/logout',async (req,res)=>{
     // just a function to revoke the jwt by updating the user's private_key
+    res.clearCookie('auth-token')
+
     let authuser = await user.findOneAndUpdate({_id:req.auth.id},{private_key: makeid(7)})
     if(!authuser) {
         return res.status(400).json({status:"failure",message:"You are not logged in"})
