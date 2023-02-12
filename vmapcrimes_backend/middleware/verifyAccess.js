@@ -5,9 +5,10 @@ const roles =  require("../models/Roles")
 
 
 
-const verifyAccess = (perms = {"READ_PERMS":['None'] , "ACTION_PERMS" : ['None']}) => { 
+const verifyAccess = (perms = {"READ_PERMS":[""] , "ACTION_PERMS" : [""]}) => { 
     return async (req,res,next) => {
-
+        console.log(perms.ACTION_PERMS)
+        console.log(perms.READ_PERMS)
         if (!req.auth || !req.auth.id || !(typeof req.auth.id === "string" ) || !(/^[a-zA-Z0-9]+$/.test(req.auth.id)) ) {
             return res.status(401).json({status:"failure",message : "Not Authenticated"})
         }
@@ -20,11 +21,11 @@ const verifyAccess = (perms = {"READ_PERMS":['None'] , "ACTION_PERMS" : ['None']
             if(userRole.name !== "admin") { 
         
 
-                if(perms.READ_PERMS.length > userRole.read_perms.length || perms.ACTION_PERMS.length > userRole.action_perms.length) {
+                if((perms.READ_PERMS &&perms.READ_PERMS.length > userRole.read_perms.length) ||(perms.ACTION_PERMS && perms.ACTION_PERMS.length > userRole.action_perms.length)) {
                     return res.status(401).json({status:"failure",message:"Insufficient Permissions"})
                 }
                 
-                if(!perms.READ_PERMS.every(perm => {userRole.read_perms.includes(perm)}) || !perms.ACTION_PERMS.every(perm => { userRole.action_perms.includes(perm) })){
+                if((perms.READ_PERMS && !perms.READ_PERMS.every(perm => {return userRole.read_perms.includes(perm)})) || (perms.ACTION_PERMS && !perms.ACTION_PERMS.every(perm => { return userRole.action_perms.includes(perm) }))){
                     return res.status(401).json({status:"failure",message:"Insufficient Permissions"})
 
                 }
