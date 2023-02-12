@@ -12,35 +12,35 @@ const FIRSchema = new Schema({
     // },
     Victim_Name:{
         type: String,
-        require: true
+        required: true
     },
     Relatives:{
         type: String,
-        require: true
+        required: true
     },
     Address:{
         type: String,
-        require: true
+        required: true
     },
     Zip:{
         type: Number,
-        require: true
+        required: true
     },
     Contact_Number:{
         type: Number,
-        require: true
+        required: true
     },
     Relation_with_accused:{
         type: String,
-        require: true
+        required: true
     },
     Name_of_accused:{
         type: String,
-        require: true
+        required: true
     },
     Type_of_incident:{
         type: String,
-        require: true
+        required: true
     },
     Incident_Highlight: {
         type: String,
@@ -48,11 +48,11 @@ const FIRSchema = new Schema({
     },
     Incident_details:{
         type: String,
-        require: true
+        required: true
     },
     Penal_code:{
         type: Number,
-        require: true
+        required: true
     },
     Location: {
         type: {
