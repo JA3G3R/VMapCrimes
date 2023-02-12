@@ -4,7 +4,7 @@ import SearchIcon from '@mui/icons-material/Search';
 
 
 
-import { Country, State, City }  from 'country-state-city';
+import {  State, City }  from 'country-state-city';
 
 
 // Import Interfaces`
@@ -35,25 +35,25 @@ const stateSelected = async (e)=>{
           className={toggleState === 1 ? "tabs active-tabs" : "tabs"}
           onClick={() => toggleTab(1)}
         >
-          <span>Reports</span>
+          <span className="spanning">Reports</span>
         </button>
         <button
           className={toggleState === 2 ? "tabs active-tabs" : "tabs"}
           onClick={() => toggleTab(2)}
         >
-          <span>Analytics</span>
+          <span className="spanning">Analytics</span>
         </button>
         <button
           className={toggleState === 3 ? "tabs active-tabs" : "tabs"}
           onClick={() => toggleTab(3)}
         >
-          <span>Filters</span>
+          <span className="spanning">Filters</span>
         </button>
         <button
           className={toggleState === 4 ? "tabs active-tabs" : "tabs"}
           onClick={() => toggleTab(4)}
         >
-          <span>Timeline</span>
+          <span className="spanning">Timeline</span>
         </button>
       </div>
 
@@ -61,7 +61,7 @@ const stateSelected = async (e)=>{
         <div
           className={toggleState === 1 ? "content  active-content" : "content"}
         >
-          <h2>Reports</h2>
+          <h2 className="spanning">Reports</h2>
           <hr />
           <span>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati
@@ -73,7 +73,7 @@ const stateSelected = async (e)=>{
         <div
           className={toggleState === 2 ? "content  active-content" : "content"}
         >
-          <h2>Analytics</h2>
+          <h2 className="spanning">Analytics</h2>
           <hr />
           <span>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente
@@ -84,7 +84,7 @@ const stateSelected = async (e)=>{
         <div
           className={toggleState === 3 ? "content  active-content" : "content"}
         >
-          <h2>Filters</h2>
+          <h2 className="spanning">Filters</h2>
           <hr />
           <span>
             <form >
@@ -98,7 +98,7 @@ const stateSelected = async (e)=>{
             <br/>
             <br/>
             <div className="Searchtype">
-            <h2>Search <SearchIcon style={{fontSize:"20px"}}/><hr /></h2>
+            <h2 className="spanning">Search <SearchIcon style={{fontSize:"20px"}}/><hr /></h2>
             
             <input type="search" placeholder="Search here.." className="inputsearch"/>
             </div>
@@ -159,15 +159,12 @@ const stateSelected = async (e)=>{
         <div
           className={toggleState === 4 ? "content  active-content" : "content"}
         >
-          <h2>Timeline</h2>
+          <h2 className="spanning">Timeline</h2>
           <hr />
           <span>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos sed
-            nostrum rerum laudantium totam unde adipisci incidunt modi alias!
-            Accusamus in quia odit aspernatur provident et ad vel distinctio
-            recusandae totam quidem repudiandae omnis veritatis nostrum
-            laboriosam architecto optio rem, dignissimos voluptatum beatae
-            aperiam voluptatem atque. Beatae rerum dolores sunt.
+            <div className="timeline">
+              <label><input type="date" pattern=""/></label>
+            </div>
           </span>
         </div>
       </div>

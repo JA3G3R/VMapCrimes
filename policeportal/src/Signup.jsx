@@ -55,7 +55,6 @@ function Signup() {
               </div>
 
               <MDBBtn className='mb-4' size='lg'>Register</MDBBtn>
-
             </MDBCol>
 
             <MDBCol md='10' lg='6' className='order-1 order-lg-2 d-flex align-items-center'>
