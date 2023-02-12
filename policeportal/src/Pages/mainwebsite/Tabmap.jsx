@@ -135,37 +135,48 @@ const stateSelected = async (e)=>{
             </div>
             <span>
                 <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                  Penal Code
+                  Penal Code ⮟
                 </a>
                  
             </span>
                <div class="collapse" id="collapseExample">
                  <div class="card card-body">
-                  <input type="text" placeholder="penal Code" style={{textDecoration:"none", border:"2px solid blue", padding:"5px", fontSize:"1rem", borderRadius:"2px"}}/>
+                  <input type="text" placeholder="Penal Code.." style={{textDecoration:"none", border:"2px solid blue", padding:"5px", fontSize:"1rem", borderRadius:"2px"}}/>
                   121, 141, 144, 146, 147, 148, 151, 153-A, 295-A, 268, 302, 304-B, 307, 322, 324, 351, 354, 509, 498-A, 363, 364, 365, 366, 376, 379, 380, 383, 390, 391, 392,395, 396, 397,411, 420, 441, 442, 447,448,454, 457, 465, 467,468,470,471, 489-A, 504,506
                  </div>
                </div>
 
-
-            
-            
-
             </form>
-            </span>
-          
-          
+            </span>          
         </div>
 
         <div
           className={toggleState === 4 ? "content  active-content" : "content"}
         >
-          <h2 className="spanning">Timeline</h2>
-          <hr />
-          <span>
-            <div className="timeline">
-              <label><input type="date" pattern=""/></label>
-            </div>
+          <span> 
+          <h2 className="spanning">TimeLine<hr/></h2>
+            <div className="Table"> 
+          <table class="table table-striped">
+            
+            <tbody class="table-group-divider">
+              <tr>
+                <td style={{ width: '80px' }}>12 Feb 2022<br/>10:00</td>
+                <td style={{ width: '200px' }}>Harrasment<br/>Robbery at the Mall.</td>
+              </tr>
+              <tr>
+                <td style={{ width: '80px' }}>10 Feb 2023<br/>15:25</td>
+                <td style={{ width: '200px' }}>Murder<br/>Young Girl shot died</td>
+              </tr>
+              <tr>
+                <td style={{ width: '80px' }}>10 Feb 2023<br/>15:25</td>
+                <td style={{ width: '200px' }}>Murder<br/>Young Girl shot died</td>
+              </tr>
+            </tbody>
+          </table>
+            </div>      
           </span>
+          
+          
         </div>
       </div>
     </div>
