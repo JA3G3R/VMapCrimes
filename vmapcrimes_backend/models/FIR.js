@@ -65,6 +65,8 @@ const FIRSchema = new Schema({
             required: true
         }
     },
+    Weapons_Used: { type: String  },
+    Damage_Caused: { type : String },
     Crime_City: {
         type : String,
         required: true
