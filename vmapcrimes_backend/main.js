@@ -1,10 +1,15 @@
 const express = require('express');
 const { expressjwt : ejwt } = require("express-jwt");
 var cookieParser = require('cookie-parser');
+const cors = require('cors')
+const  {makeSecretKey} = require("./util")
 
 const connectToDB = require('.\\db.js');
-const adminRoutes = require('./routes/admin');
-const uploadRoute = require('./routes/upload')
+const authRoutes = require('./routes/authRoutes');
+const usersRoutes = require('./routes/usersRoutes');
+const rolesRoutes = require('./routes/rolesRoutes');
+const uploadRoutes = require('./routes/firRoutes')
+const fetchRoutes = require('./routes/fetchRoutes')
 
 require('dotenv').config();
 connectToDB();
@@ -14,6 +19,12 @@ const app = express();
 // useful third party middlewares 
 app.use(cookieParser());
 app.use(express.json());
+var corsOptions = {
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200 ,// some legacy browsers (IE11, various SmartTVs) choke on 204
+  credentials : true
+  }
+app.use(cors(corsOptions));
 
 app.get('/', (req,res)=> {
   res.send("Hello World");
@@ -24,32 +35,44 @@ app.listen(port, () => {
   console.log(`VMapCrimes app is listening on port ${port}`);
 })
 
-// Handle generic bad request errors
-app.use((err, req, res, next) => { 
-  if (err.status == 400 ) {
-    if(err.name == "UnauthorizedError") {
-      res.status(401).json({status:"failure",message:"Invalid JWT token"});
-    }
-    res.status(400).send("Bad request");
-  }
-  next()
-});
-
-app.use(ejwt({secret: process.env.JWT_SECRET_KEY,algorithms : ['HS256'],getToken: (req) => {
-  console.log(req.cookies)
+app.use(ejwt({secret: makeSecretKey,algorithms : ['HS256'],getToken: (req) => {
   if(!req.cookies || !req.cookies['auth-token']) {
-      throw "Cookie auth-token not present"
+      
       return null;
   }
   return req.cookies['auth-token'];
 },
-onExpired : async (req,err)=> {
-  var tse = new Date()- err.inner.expiredAt;
-  console.log(err.name)
-  if ( tse < 2000) {return;}
-  throw "Session Token expired"
-}}).unless({path: ['/api/v1/admin/adminLogin']}));
+// onExpired : async (req,err)=> {
+  
+//     throw "Session Token expired"
+//   }
+}).unless({path: ['/api/auth/login']}));
 
-app.use('/api/v1/admin',adminRoutes);
+app.use('/api/roles',rolesRoutes);
 
-app.use('/api/data', uploadRoute);
+app.use('/api/users', usersRoutes);
+
+app.use('/api/data', uploadRoutes);
+
+app.use('/api/auth',authRoutes);
+
+app.use(('/api/fetch',fetchRoutes))
+
+// Handle generic bad request errors
+app.use((err, req, res, next) => { 
+  if (err.status === 401 ) {
+    console.log(err)
+    if(err.name === "UnauthorizedError") {
+      if(err.inner.name==="TokenExpiredError") {
+        return res.status(401).json({status:"failure",message:"JWT Token expired,please login"});
+      }else {
+
+        return res.status(401).json({status:"failure",message:"JWT Token absent or invalid,please login again"});
+
+      }
+  
+    }
+    return res.status(400).send("Bad request");
+  }
+  next()
+})

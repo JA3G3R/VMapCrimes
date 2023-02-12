@@ -20,6 +20,8 @@ router.post('/', [
     body('Name_of_accused').isLength({ min: 1 }).withMessage('Name of accused is required'),
     body('Type_of_incident').isLength({ min: 1 }).withMessage('Type of incident is required'),
     body('Incident_details').isLength({ min: 1 }).withMessage('Incident details is required'),
+    body('Penal_code').isNumeric().withMessage('Penal code must be a number'),
+    body('Penal_code').isLength({ min: 1 }).withMessage('Penal code is required'),
     body('Location.coordinates.*').isNumeric().withMessage('Longitude/Latitude field must be a number'),
     body('Location.coordinates.*').not().isEmpty().withMessage('Longitude/Latitude field must not be empty')
 ], (req, res) => {
