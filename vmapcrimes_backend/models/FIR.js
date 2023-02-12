@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const {Schema} = mongoose;
 const FIRSchema = new Schema({
     
-    Date:{
+    FIR_Date:{
         type: Date,
         default: Date.now
     },
