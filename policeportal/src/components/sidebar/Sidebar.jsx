@@ -3,10 +3,10 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import NoteAltOutlinedIcon from '@mui/icons-material/NoteAltOutlined';
-import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
+
 import InsertChartOutlinedRoundedIcon from '@mui/icons-material/InsertChartOutlinedRounded';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import SettingsApplicationsOutlinedIcon from '@mui/icons-material/SettingsApplicationsOutlined';
+
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 import { Link } from "react-router-dom";
@@ -28,7 +28,7 @@ function Sidebar() {
         <div className="center">
             <ul>
                 <p className="title">MAIN</p>
-                <Link to="/" style={{textDecoration:"none"}}>
+                <Link to="/portal" style={{textDecoration:"none"}}>
                 <li>
                      <DashboardIcon className="icon" />
                     <span>Dashboard</span>
@@ -61,10 +61,7 @@ function Sidebar() {
                 </li>
                 </Link>
                 <Link to="/location" style={{textDecoration:"none"}}>
-                <li>
-                     <RoomOutlinedIcon className="icon" />
-                    <span>Location</span>
-                </li>
+                
                 </Link>
                 
                 <li>
@@ -76,10 +73,7 @@ function Sidebar() {
                      <AccountCircleOutlinedIcon className="icon" />
                     <span>Profile</span>
                 </li>
-                <li>
-                    <SettingsApplicationsOutlinedIcon className="icon" />
-                    <span>Setting</span>
-                </li>
+                
                 <li>
                      <ExitToAppIcon className="icon" />
                     <span>Logout</span>

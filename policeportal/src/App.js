@@ -14,6 +14,7 @@ import Newroles from "./Pages/newroles/Newroles";
 import "./style/dark.scss"
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
+import Signup from "./Signup";
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
             <Route path="fir" element={<Fir/>} />
             <Route path="roles" element={<Roles/>} />
             <Route path="newroles" element={<Newroles/>} />
+            <Route path="signup" element={<Signup/>} />
             <Route path="users">
               <Route index element={<List/>}/>
               <Route path=":userId" index element={<Single/>}/>

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import "./Login.css";
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
-const Login = () => {
+
+
+function Login() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
