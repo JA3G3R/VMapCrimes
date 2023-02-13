@@ -29,7 +29,7 @@ const stateSelected = async (e)=>{
 }
 
   return (
-    <div className="containing" style={{position:""}}>
+    <div className="containing" >
       <div className="bloc-tabs" >
         <button
           className={toggleState === 1 ? "tabs active-tabs" : "tabs"}
@@ -37,21 +37,16 @@ const stateSelected = async (e)=>{
         >
           <span className="spanning">Reports</span>
         </button>
+        
         <button
           className={toggleState === 2 ? "tabs active-tabs" : "tabs"}
           onClick={() => toggleTab(2)}
         >
-          <span className="spanning">Analytics</span>
+          <span className="spanning">Filters</span>
         </button>
         <button
           className={toggleState === 3 ? "tabs active-tabs" : "tabs"}
           onClick={() => toggleTab(3)}
-        >
-          <span className="spanning">Filters</span>
-        </button>
-        <button
-          className={toggleState === 4 ? "tabs active-tabs" : "tabs"}
-          onClick={() => toggleTab(4)}
         >
           <span className="spanning">Timeline</span>
         </button>
@@ -70,19 +65,10 @@ const stateSelected = async (e)=>{
           </span>
         </div>
 
-        <div
-          className={toggleState === 2 ? "content  active-content" : "content"}
-        >
-          <h2 className="spanning">Analytics</h2>
-          <hr />
-          <span>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente
-            voluptatum qui adipisci.
-          </span>
-        </div>
+        
 
         <div
-          className={toggleState === 3 ? "content  active-content" : "content"}
+          className={toggleState === 2 ? "content  active-content" : "content"}
         >
           <h2 className="spanning">Filters</h2>
           <hr />
@@ -151,7 +137,7 @@ const stateSelected = async (e)=>{
         </div>
 
         <div
-          className={toggleState === 4 ? "content  active-content" : "content"}
+          className={toggleState === 3 ? "content  active-content" : "content"}
         >
           <span> 
           <h2 className="spanning">TimeLine<hr/></h2>
