@@ -19,11 +19,11 @@ router.get('/fetchFIR', (req, res) => {
     let query = FIR.find({});
 
     if(dateBefore) {
-        query.where('Date').lte(dateBefore);
+        query.where('Timestamp_of_Crime').lte(dateBefore);
     }
 
     if(dateAfter) {
-        query.where('Date').gte(dateAfter);
+        query.where('Timestamp_of_Crime').gte(dateAfter);
     }
 
     if(crimeType) {
@@ -48,12 +48,28 @@ router.get('/fetchFIR', (req, res) => {
 
     query.exec((error, result) => {
         if(error) {
-            return res.status(500).json({ error: error });
+            return res.status(500).json({status: "failure", error: error });
         }
-        const {Location,_id} = result;
-        const toSend = [_id,...Location.coordinates]
-        res.json({status:"success",data:toSend,message:"Fetched FIRs, Success!"})
+        var toSend = result.map((fir)=> {return [fir._id,fir.Location.coordinates[0],fir.Location.coordinates[1]]})
+
+
+        // const {Location,_id} = result;
+        // const toSend = [_id,...Location.coordinates]
+        res.json({status:"success",result:toSend,message:"Fetched FIRs, Success!"})
     });
+});
+router.get('/fetchFIR/:id', (req, res) => {
+
+    const id = req.params.id;
+    // console.log(req.params.id+"length is "+req.params.id.length)
+    var lengthChecks= (id.length==24)
+    // console.log("length checks "+lengthChecks)
+    var isAlphanumeric =  /^[a-zA-Z0-9]+$/.test(id)
+    // console.log("is alpha numeric "+isAlphanumeric)
+    
+    if (!id || !(typeof id === 'string')|| !lengthChecks || !isAlphanumeric) {
+        return res.status(400).json({status:"failure",message : "Please Send a valid id in parameter"})
+    }
 });
 
 

@@ -51,7 +51,7 @@ const FIRSchema = new Schema({
         required: true
     },
     Penal_code:{
-        type: Number,
+        type: String,
         required: true
     },
     Location: {

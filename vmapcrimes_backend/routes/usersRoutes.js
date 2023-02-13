@@ -152,8 +152,14 @@ router.get('/fetchAllUsers',verifyAccess({READ_PERMS:["READ_ALL_USERS"]}), async
 
 router.get('/fetchUser/:id',verifyAccess({READ_PERMS:['READ_FULL_USER']}),async (req,res) => {
 const id = req.params.id;
-if(!id) {
-    return res.status(400).json({status:"failure",message: "Missing ID parameter"})
+// console.log(req.params.id+"length is "+req.params.id.length)
+var lengthChecks= (id.length==24)
+// console.log("length checks "+lengthChecks)
+var isAlphanumeric =  /^[a-zA-Z0-9]+$/.test(id)
+// console.log("is alpha numeric "+isAlphanumeric)
+
+if (!id || !(typeof id === 'string')|| !lengthChecks || !isAlphanumeric) {
+    return res.status(400).json({status:"failure",message : "Please Send a valid id in parameter"})
 }
 
 try {
