@@ -14,7 +14,7 @@ const FIRSchema = new Schema({
         type: String,
         required: true
     },
-    Relatives:{
+    Officers_Name:{
         type: String,
         required: true
     },
@@ -56,10 +56,10 @@ const FIRSchema = new Schema({
     },
     Location: {
         type: {
-            type: String,
-            enum: ['Point'],
+            type: String, // Don't do `{ location: { type: String } }`
+            enum: ['Point'], // 'location.type' must be 'Point'
             required: true
-        },
+          },
         coordinates: {
             type: [Number],
             required: true
