@@ -58,7 +58,7 @@ router.get('/fetchFIR', (req, res) => {
         res.json({status:"success",result:toSend,message:"Fetched FIRs, Success!"})
     });
 });
-router.get('/fetchFIR/:id', (req, res) => {
+router.get('/fetchFIR/:id', async (req, res) => {
 
     const id = req.params.id;
     // console.log(req.params.id+"length is "+req.params.id.length)
@@ -69,6 +69,23 @@ router.get('/fetchFIR/:id', (req, res) => {
     
     if (!id || !(typeof id === 'string')|| !lengthChecks || !isAlphanumeric) {
         return res.status(400).json({status:"failure",message : "Please Send a valid id in parameter"})
+    }
+
+    try {
+        var requestedFir = await FIR.findOne({_id:id});
+        // TODO Implement RBAC to give role specific details. For now, just type of crime,incident highlights, date, address and city
+    
+    } catch(e) {
+        console.log("Error: "+e)
+    
+        if (e instanceof mongoose.Error) {
+            return res.status(500).json({status:"failure",message:"Failed to query Database"})
+    
+        }else{
+            
+            return res.status(500).json({status:"failure",message:"Some unknown error occured"})
+    
+        }
     }
 });
 
