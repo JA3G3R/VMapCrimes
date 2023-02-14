@@ -24,9 +24,10 @@ config.CURRENTLY_DEFINED_ROLES =
             "DATE_OF_CRIME",
             "CRIME_USED_WEAPONS",
             "CRIME_EVIDENCE",
-            "CRIME_SUSPECTS",
-            "CRIME_VICTIMS",
-            "THEFT_AMOUNT",
+            "CRIME_SUSPECT",
+            "CRIME_VICTIM",
+            "CRIME_DETAILS",
+            "ACCUSED_VICTIM_RELATION"
 
       ]
      

@@ -77,5 +77,9 @@ const FIRSchema = new Schema({
     },
     Timestamp_of_Crime: {type:Date,required: true}
 });
-FIRSchema.index({ Location: '2dsphere' });
+FIRSchema.index({ Location: '2dsphere'})
+FIRSchema.index({Incident_Highlight: 'text',Incident_details:'text' },{weights: {
+    Incident_Highlight: 5,
+    Incident_details:2
+}});
 module.exports = mongoose.model('FIR', FIRSchema)
