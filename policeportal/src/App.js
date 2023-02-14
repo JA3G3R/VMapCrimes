@@ -15,7 +15,7 @@ import "./style/dark.scss"
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import Signup from "./Signup";
-import Analytics from "./Pages/Analytics";
+import Analytics from "./Pages/mainwebsite/Analytics";
 
 
 function App() {
@@ -34,7 +34,7 @@ function App() {
             <Route path="roles" element={<Roles/>} />
             <Route path="newroles" element={<Newroles/>} />
             <Route path="signup" element={<Signup/>} />
-            <Route path="analytics" element={<Analytics /> } />
+            <Route path="analytics" element={<Analytics/>} />
             <Route path="users">
               <Route index element={<List/>}/>
               <Route path=":userId" index element={<Single/>}/>

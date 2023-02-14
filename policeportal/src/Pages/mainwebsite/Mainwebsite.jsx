@@ -31,15 +31,33 @@ function Mainwebsite() {
   const myicon = L.icon({iconUrl:Icon, iconSize: L.point(40,40) })
   console.log("icon is " + myicon.iconUrl)
 
+  
+
   return (
     
     <div className='mainhome'>
       
       <div className="Navbar" style={{position:"fixed", padding:"1rem", width:"100%", zIndex:"1111"}}>
         <div className="wrapper">
-        <div className="Welcome">VMapCrimes</div>
+          <div className="Welcome">VMapCrimes</div>
           
-          <div className="items">
+
+          
+          <div className="items" style={{listStyle:"none"}}>
+            <div className='item'>
+              <Link to="/portal" style={{textDecoration:"none"}}>
+                <li className='links' style={{color:"white", fontSize: "18px"}}>Dashboard</li>
+              </Link>
+            </div>
+
+            
+
+            <div className="item">
+              <Link to="/analytics" style={{textDecoration:"none"}}>
+                <li className='links' style={{color:"white"}}>Analytics</li>
+              </Link> 
+            </div>
+
             <link to="/"></link>
             <div className="item">
               <DarkModeOutlinedIcon className="icon" onClick={()=>dispatch({type:"TOGGLE"})} />
@@ -48,7 +66,7 @@ function Mainwebsite() {
             
             <Link to="/login">
               <div className="item">
-                <LoginIcon className='icon'/>
+                <LoginIcon className='icon' style={{color:"white"}}/>
               </div>
             </Link> 
             
