@@ -5,21 +5,24 @@
   }
   
   body {
-    background: #fff;
+    background: transparent;
   }
   
   .containing {
     display: flex;
     flex-direction: column;
     position: relative;
-    width: 32.4rem;
+    width: 31.5rem;
     height: 70rem;
-    background: #50cf56;
+    background: rgba(151, 150, 150, 0.485);
+    
     margin-left: 1.5rem;
     margin-right: 0;
     word-break: break-all;
     border: 2px solid rgba(0, 0, 0, 0.274);
-    
+    color: white;
+    box-shadow: 0px 4px 16px rgba(0,0,0,0.5);  
+    backdrop-filter: blur(5px);
     border-bottom: none;
     overflow: hidden;
   }
@@ -40,17 +43,17 @@
     width: 50%;
     background: rgba(128, 128, 128, 0.075);
     cursor: pointer;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.274);
+    border-bottom: 1.5px solid rgba(244, 243, 243, 0.712);
     box-sizing: content-box;
     position: relative;
     outline: none;
   }
   .tabs:not(:last-child){
-    border-right: 1px solid rgba(0, 0, 0, 0.274);
+    border-right: 1.5px solid rgba(251, 247, 247, 0.573);
   }
   
   .active-tabs  {
-    background: white;
+    background: transparent;
     border-bottom: 1px solid transparent;
   }
   
@@ -105,6 +108,7 @@
     text-transform: uppercase;
     font-size: 15px;
     width: 100%;
+    background: rgba(255, 251, 251, 0.485);
   }
   
   .dates{
@@ -123,7 +127,7 @@
     padding: 5px;
     text-transform: uppercase;
     font-size: 15px;
-    
+    background: "rgba(255, 251, 251, 0.485)"
     
   }
   .Table{
@@ -147,7 +151,7 @@
     flex-grow : 1;
   }
   .content {
-    background: white;
+    background: transparent;
     padding: 15px;
     
     width: 100%;
@@ -163,7 +167,7 @@
   .content hr {
     width: 100px;
     height: 2px;
-    background: #222;
+    background: #fcfcfc;
     margin-bottom: 5px;
     padding: 0px 0px;
   }

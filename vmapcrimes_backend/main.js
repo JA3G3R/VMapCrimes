@@ -4,11 +4,12 @@ var cookieParser = require('cookie-parser');
 const cors = require('cors')
 const  {makeSecretKey} = require("./util")
 
+const config = require('./config/defaultConfig')
 const connectToDB = require('.\\db.js');
 const authRoutes = require('./routes/authRoutes');
 const usersRoutes = require('./routes/usersRoutes');
 const rolesRoutes = require('./routes/rolesRoutes');
-const uploadRoutes = require('./routes/firRoutes')
+const firRoutes = require('./routes/firRoutes')
 const fetchRoutes = require('./routes/fetchRoutes')
 
 require('dotenv').config();
@@ -46,17 +47,17 @@ app.use(ejwt({secret: makeSecretKey,algorithms : ['HS256'],getToken: (req) => {
   
 //     throw "Session Token expired"
 //   }
-}).unless({path: ['/api/auth/login']}));
+}).unless({path: config.PUBLICLY_ACCESSIBLE_PAGES}));
 
 app.use('/api/roles',rolesRoutes);
 
 app.use('/api/users', usersRoutes);
 
-app.use('/api/data', uploadRoutes);
+app.use('/api/data', firRoutes);
 
 app.use('/api/auth',authRoutes);
 
-app.use(('/api/fetch',fetchRoutes))
+app.use('/api/fetch',fetchRoutes)
 
 // Handle generic bad request errors
 app.use((err, req, res, next) => { 

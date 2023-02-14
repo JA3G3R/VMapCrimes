@@ -1,73 +1,81 @@
 const mongoose = require('mongoose');
 const {Schema} = mongoose;
 const FIRSchema = new Schema({
-    FIR_Number:{
-        type: Number,
-        require: true
-    },
-    Date:{
+    
+    FIR_Date:{
         type: Date,
         default: Date.now
     },
-    Police_Station_ID:{
-        type: Number,
-        require: true
-    },
-    Created_At:{
+    // Police_Station_ID:{
+    //     type: Number,
+    //     require: true
+    // },
+    Victim_Name:{
         type: String,
-        require: true
+        required: true
     },
-    Name:{
+    Officers_Name:{
         type: String,
-        require: true
-    },
-    Parent_Name:{
-        type: String,
-        require: true
+        required: true
     },
     Address:{
         type: String,
-        require: true
+        required: true
     },
     Zip:{
         type: Number,
-        require: true
+        required: true
     },
     Contact_Number:{
         type: Number,
-        require: true
+        required: true
     },
     Relation_with_accused:{
         type: String,
-        require: true
+        required: true
     },
     Name_of_accused:{
         type: String,
-        require: true
+        required: true
     },
     Type_of_incident:{
         type: String,
-        require: true
+        required: true
+    },
+    Incident_Highlight: {
+        type: String,
+        required: true
     },
     Incident_details:{
         type: String,
-        require: true
+        required: true
     },
     Penal_code:{
-        type: Number,
-        require: true
+        type: String,
+        required: true
     },
     Location: {
         type: {
-            type: String,
-            enum: ['Point'],
+            type: String, // Don't do `{ location: { type: String } }`
+            enum: ['Point'], // 'location.type' must be 'Point'
             required: true
-        },
+          },
         coordinates: {
             type: [Number],
             required: true
         }
-    }
+    },
+    Weapons_Used: { type: String  },
+    Damage_Caused: { type : String },
+    Crime_City: {
+        type : String,
+        required: true
+    },
+    Crime_State: {
+        type : String,
+        required: true
+    },
+    Timestamp_of_Crime: {type:Date,required: true}
 });
 FIRSchema.index({ Location: '2dsphere' });
 module.exports = mongoose.model('FIR', FIRSchema)

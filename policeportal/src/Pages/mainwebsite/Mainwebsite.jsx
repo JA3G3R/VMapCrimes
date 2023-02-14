@@ -46,17 +46,15 @@ function Mainwebsite() {
           <div className="items" style={{listStyle:"none"}}>
             <div className='item'>
               <Link to="/portal" style={{textDecoration:"none"}}>
-                <li className='links' >Dashboard</li>
+                <li className='links' style={{color:"white", fontSize: "18px"}}>Dashboard</li>
               </Link>
             </div>
 
-            <div className="item">
-              <li className='links'>Mapping</li>
-            </div>
+            
 
             <div className="item">
               <Link to="/analytics" style={{textDecoration:"none"}}>
-                <li className='links'>Analytics</li>
+                <li className='links' style={{color:"white"}}>Analytics</li>
               </Link> 
             </div>
 
@@ -68,7 +66,7 @@ function Mainwebsite() {
             
             <Link to="/login">
               <div className="item">
-                <LoginIcon className='icon'/>
+                <LoginIcon className='icon' style={{color:"white"}}/>
               </div>
             </Link> 
             
