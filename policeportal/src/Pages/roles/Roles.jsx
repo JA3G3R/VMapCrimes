@@ -60,7 +60,7 @@ function Roles() {
     }
     fetchUsers()
 
-  }, [deleted])
+  }, [deleted,isAuthenticated])
   return (
     
     <div className="Roles">

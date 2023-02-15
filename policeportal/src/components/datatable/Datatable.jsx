@@ -47,7 +47,7 @@ function Datatable() {
       fetchUsers()
     }
     // eslint-disable-next-line
-  },[deleted])
+  },[deleted,isAuthenticated])
 
 
 

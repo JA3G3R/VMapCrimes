@@ -7,9 +7,11 @@ import UserContext from "../../context/userContext";
 import { useNavigate } from "react-router-dom";
 const New = () => {
 
-  const { verifyAccess, isAuthenticated, logUserOut } = useContext(UserContext)
+  const { verifyAccess, isAuthenticated, verifyAuth } = useContext(UserContext)
   const [data, setData] = useState({});
   const [roles, setRoles] = useState([])
+  const [updated, setUpdated] = useState(0)
+  const [message, setMessage] = useState(false)
   const nav = useNavigate()
   const handleChange = (event) => {
     setData({ ...data, [event.target.name]: event.target.value });
@@ -46,7 +48,13 @@ const New = () => {
     }
 
     var resp = await fetch("http://localhost:5001/api/users/createUser", options)
-    console.log(JSON.stringify(resp))
+    var respJSON = await resp.json()
+    verifyAuth(resp, respJSON)
+    if(respJSON.status==="success"){
+      setUpdated(1)
+      
+  }else { setUpdated(2) }
+  setMessage(respJSON.message?respJSON.message:respJSON.errors.map((item)=>{return item.msg}))
   }
 
   return (
@@ -103,6 +111,8 @@ const New = () => {
                     </div>
 
                     <button onClick={onFormSubmit}>Send</button>
+                    {updated? updated === 1 ? <p style={{color:"green",display:"inline !important"}}>{message}</p>:<span style={{color:"red"}}>{Array.isArray(message)?message.map((item)=>{return <>{item}<br /></>}):message}</span>:null}
+
                   </form>
                 </div>
               </div>

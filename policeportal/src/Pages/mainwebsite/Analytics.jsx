@@ -10,9 +10,10 @@ import "./mainwebsite.scss"
 import 'leaflet/dist/leaflet.css'
 import Chart from './Chart'
 import MapState from "../../context/MapState"
-
+import MapContext from '../../context/mapContext';
 const Analytics = () => {
     const{dispatch} = useContext(DarkModeContext)
+    const {filters} = useContext(MapContext)
   return (
     <div className='mainhome'>
       

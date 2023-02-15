@@ -33,7 +33,7 @@ function Sidebar() {
                 <Link to="/dashboard" style={{textDecoration:"none"}}>
                 <li>
                      <DashboardIcon className="icon" />
-                    <span>Dashboard</span>
+                    <Link to="/analytics" style={{textDecoration:"none"}}><span>Analytics</span></Link>
                 </li>
                 </Link>
                 
@@ -51,7 +51,7 @@ function Sidebar() {
                 </li>
                 </Link>
             
-                <p className="title">USEFUL</p>
+                <p className="title">FIR</p>
                 <Link to="/fir" style={{textDecoration:"none"}}>
                 <li>
                      <NoteAltOutlinedIcon className="icon" />
@@ -64,11 +64,6 @@ function Sidebar() {
                 
                 
                 <p className="title">USER</p>
-                <li>
-                     <AccountCircleOutlinedIcon className="icon" />
-                    <span>Profile</span>
-                </li>
-                
                 <li>
                      <ExitToAppIcon className="icon" />
                     {isAuthenticated?<Link to="/logout" style={{textDecoration:"none"}}><span>Logout</span></Link>:<Link to="/login" style={{textDecoration:"none"}}><span>Login</span></Link>}

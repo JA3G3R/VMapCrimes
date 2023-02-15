@@ -4,6 +4,7 @@ import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import CrisisAlertRoundedIcon from '@mui/icons-material/CrisisAlertRounded';
 import NoteAltOutlinedIcon from '@mui/icons-material/NoteAltOutlined';
 import PersonPinCircleOutlinedIcon from '@mui/icons-material/PersonPinCircleOutlined';
+import { Link } from "react-router-dom";
 
 function Widget({type="user",users=0,firs=0}) {
   let data;
@@ -14,7 +15,8 @@ function Widget({type="user",users=0,firs=0}) {
       data ={
         title: "USERS",
         isMoney: false,
-        link: "See all users",
+        linkText: "See all users",
+        link:"/users",
         counter:parseInt(users),
         icon: <PersonRoundedIcon className="icon" 
         style={{color:"green", backgroundColor: "lightgreen",
@@ -27,7 +29,8 @@ function Widget({type="user",users=0,firs=0}) {
       data ={
         title: "FIR Registered",
         isMoney: false,
-        link: "View all Fir",
+        link:"/",
+        linkText: "View all Fir",
         counter:parseInt(firs),
         icon: <NoteAltOutlinedIcon className="icon"
         style={{color:"darkgoldenrod", backgroundColor: "rgba(218, 165,32, .2)",
@@ -47,7 +50,7 @@ function Widget({type="user",users=0,firs=0}) {
       <div className="left">
         <span className="title">{data.title}</span>
         <span className="counter">{data.counter}</span>
-        <span className="link">{data.link}</span>       
+        <span className="link"><Link to={data.link} style={{textDecoration:"none !important"}}>{data.linkText}</Link></span>       
       </div>
       <div className="right">
         <div className="percentage positive">

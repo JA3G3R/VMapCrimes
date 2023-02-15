@@ -30,7 +30,7 @@ function Updateroles() {
       var fetchedRole = await fetch(`http://localhost:5001/api/roles/fetchRole/${roleId}`, options)
       var fetchedRoleJSON = await fetchedRole.json()
       if (verifyAccess(fetchRole,fetchedRoleJSON)){
-        
+
         setPostData(fetchedRoleJSON)
 
       }
@@ -52,7 +52,7 @@ function Updateroles() {
 
     var resp = await fetch("http://localhost:5001/api/roles/updateRole", options)
     var respJSON = await resp.json()
-    if(respJSON.status==="success"){
+    if(verifyAccess(resp,respJSON)){
         setUpdated(1)
         
     }else { setUpdated(2) }

@@ -7,7 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useState,useEffect,useContext } from "react";
 import { Link } from "react-router-dom";
 import UserContext from "../../context/userContext";
-
+import img from "../../default-avatar.jpg"
 const Single= () => {
   const {isAuthenticated,verifyAccess} = useContext(UserContext)
   const {userId}  = useParams();
@@ -41,7 +41,8 @@ const Single= () => {
             {verifyAccess({ACTION_PERMS:"EDIT_USER"})?<Link to={`../update/${userId}`} ><div className="editButton">Edit</div></Link>:null}
             <h1 className="title">Information</h1>
             <div className="item">
-              <img src="https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" 
+              <img src={img} 
+              // https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500
               alt="" 
               className="itemImg"/>
               <div className="details">
@@ -62,9 +63,7 @@ const Single= () => {
               </div>
             </div>
           </div>
-          <div className="right">
-            <Chart aspect={2.5/1} title="User Report"/>
-          </div>
+          
         </div>
         <div className="bottom">
           <Datatable/>

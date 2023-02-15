@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 function Newroles() {
   const { isAuthenticated, verifyAccess, verifyAuth } = useContext(UserContext)
   const [data, setData] = useState({});
+  const [updated, setUpdated] = useState(0)
+  const [message, setMessage] = useState(false)
   // TODO: fetch perms from backend if user has appropriate permissions
   const { perms } = useContext(UserContext)
   const nav = useNavigate()
@@ -35,10 +37,15 @@ function Newroles() {
 
       }
 
-      var res = await fetch("http://localhost:5001/api/roles/addRole", options)
-      var resJSON = await res.json()
-      verifyAuth(res, resJSON)
-
+      var resp = await fetch("http://localhost:5001/api/roles/addRole", options)
+      var respJSON = await resp.json()
+      verifyAuth(resp, respJSON)
+      if(respJSON.status==="success"){
+        setUpdated(1)
+        
+    }else { setUpdated(2) }
+    setMessage(respJSON.message?respJSON.message:respJSON.errors.map((item)=>{return item.msg}))
+    
 
     }
   }
@@ -131,6 +138,8 @@ function Newroles() {
 
                 </form>
                 <button onClick={onBtnClick}>ADD</button>
+                {updated? updated === 1 ? <p style={{color:"green",display:"inline !important"}}>{message}</p>:<span style={{color:"red"}}>{Array.isArray(message)?message.map((item)=>{return <><br />{item}</>}):message}</span>:null}
+
               </div>
             </div>
           </> : !isAuthenticated ? <h3>Please Log in to Continue</h3> : <h3>You don't have permissions to add new roles</h3>}

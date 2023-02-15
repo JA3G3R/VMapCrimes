@@ -1,4 +1,3 @@
-import Chart from "../../components/chart/Chart"
 import Featured from "../../components/featured/Featured"
 import Navbar from "../../components/navbar/Navbar"
 import Sidebar from "../../components/sidebar/Sidebar"
@@ -8,7 +7,7 @@ import UserContext from "../../context/userContext"
 import { useContext,useEffect,useState } from "react"
 import { useNavigate } from "react-router-dom"
 import "./dashboard.scss"
-
+import Chart from "../mainwebsite/Chart"
 const Dashboard = () => {
  
   const { isAuthenticated,verifyAuth } = useContext(UserContext)
@@ -36,7 +35,7 @@ const Dashboard = () => {
     fetchCount()
 
   }
-})
+},[isAuthenticated])
   return (
     <>
       {
@@ -52,10 +51,20 @@ const Dashboard = () => {
                 <Widget type="fir" firs={firCount}/>
               </div>
               <div className="charts">
-                <Featured />
-                <Chart title="Last 6 Months Report" aspect={2 / 1} />
               </div>
-             
+              <hr />
+              <h2 style={{margin:" auto 3rem "}}>Latest Analytics</h2>
+              <hr />
+              <div style={{margin: "0px 5rem"}}>
+                <div style={{display: "flex",gap: "3rem"}}>
+
+             <Chart height={'320px'} width={'500px'} chartId="63eba339-8e54-44c6-873e-e1c32177c364" style={{margin :"0 1.5rem !important"}}/>
+             <Chart height={'320px'} width={'500px'} chartId="63eba36a-6ec5-44d0-8111-7aa4ae48fe2e" style={{margin :"0 1.5rem"}}/>
+                </div>
+                
+
+              </div>
+                
 
             </div>
           </div > : <h3> Redirecting to login page ...</h3>
