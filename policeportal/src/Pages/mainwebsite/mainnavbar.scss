@@ -77,14 +77,14 @@
                 
 
                 .links{
-                    color: white;
+                    color: blueviolet !important ;
                     font-size: 18px;
                     display: inline-block;
                     padding: 5px;
 
                     &:hover{
                         background: blueviolet;
-                        color: white;
+                        color: white  !important;
                         font-weight: 550;
                         font-size: 18px;
                         display: inline-block;

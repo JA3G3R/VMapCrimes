@@ -3,17 +3,19 @@ const FIR = require("../models/FIR");
 const router = express.Router();
 const { body, validationResult } = require('express-validator');
 const verifyAccess = require('../middleware/verifyAccess');
+const mongoose = require('mongoose')
 
-router.post('/uploadFir', verifyAccess({ACTION_PERMS:["CREATE_FIR"]}),[
+router.post('/uploadFir', verifyAccess({ ACTION_PERMS: ["CREATE_FIR"] }), [
 
     body('Victim_Name').notEmpty().withMessage("Name is required"),
+    
     body('Officers_Name').notEmpty().withMessage("Officer's Name is required"),
 
     body('Address').notEmpty().withMessage('Address is required'),
 
-    body('Zip').notEmpty().withMessage('Zip is required').isNumeric().withMessage('Zip must be a number').isLength({min:6,max:6}).withMessage("Provide a valid Zip Code"),
+    body('Zip').notEmpty().withMessage('Zip is required').isNumeric().withMessage('Zip must be a number').isLength({ min: 6, max: 6 }).withMessage("Provide a valid Zip Code"),
 
-    body('Contact_Number').notEmpty().withMessage('Contact Number is required').isNumeric().withMessage('Contact Number must be a number').isLength({min:10,max:10}).withMessage("Porvide a valid contact number"),
+    body('Contact_Number').notEmpty().withMessage('Contact Number is required').isNumeric().withMessage('Contact Number must be a number').isLength({ min: 10, max: 10 }).withMessage("Porvide a valid contact number"),
 
     body('Relation_with_accused').notEmpty().withMessage('Relation with accused is required'),
 
@@ -27,11 +29,11 @@ router.post('/uploadFir', verifyAccess({ACTION_PERMS:["CREATE_FIR"]}),[
 
     body('Penal_code').notEmpty().withMessage('Penal code is required').isAlphanumeric().withMessage('Penal code must be a number'),
 
-    body('Crime_City').notEmpty().withMessage('City of crime must not be left empty').isAlpha('en-US',{ignore: ' '}),
+    body('Crime_City').notEmpty().withMessage('City of crime must not be left empty').isAlpha('en-US', { ignore: ' ' }),
 
     body('Location.coordinates.*').notEmpty().withMessage('Longitude/Latitude field must not be empty').isNumeric().withMessage('Longitude/Latitude field must be a number'),
 
-    body('Crime_State').notEmpty().withMessage('State of crime must not be left empty').isAlpha('en-US',{ignore: ' '}),
+    body('Crime_State').notEmpty().withMessage('State of crime must not be left empty').isAlpha('en-US', { ignore: ' ' }),
 
     body('Timestamp_of_Crime').notEmpty().withMessage("Timestamp of Crime is required").isISO8601().withMessage("Date should be of the format YYYY-MM-DD")
 
@@ -52,5 +54,23 @@ router.post('/uploadFir', verifyAccess({ACTION_PERMS:["CREATE_FIR"]}),[
     res.send(req.body);
 });
 
+router.get("/fetchFirCount", async (req, res) => {
+
+    try {
+        const firCount =  await FIR.countDocuments({})
+        res.status(200).json({count:firCount})
+    } catch (e) {
+        console.log("Error occured in fetchFirCount: " + e)
+
+        if (e instanceof mongoose.Error) {
+            return res.status(500).json({ status: "failure", message: "Failed to query Database" })
+
+        } else {
+
+            return res.status(500).json({ status: "failure", message: "Some unknown error occured" })
+
+        }
+    }
+})
 
 module.exports = router

@@ -33,13 +33,13 @@
                 padding: 0 7em;
 
                 form{
-                    display: flex;
+                    display: grid;
                     flex-wrap: wrap;
                     gap: 20px;
                     
 
                     .formInput{
-                        display: grid;
+                        display: block;
                         width: 40%;
                         font-weight: 500;
                         align-items: center;
@@ -77,16 +77,17 @@
                             
                         }
                     }
-                    button{
-                        width: 150px;
-                        padding: 10px;
-                        background-color: teal;
-                        border: none;
-                        color: white;
-                        font-weight: bold;
-                        cursor: pointer;
-                        margin-top: 10px;
-                    }
+                    
+                }
+                button{
+                    width: 150px;
+                    padding: 5px;
+                    background-color: teal;
+                    border: none;
+                    color: white;
+                    font-weight: bold;
+                    cursor: pointer;
+                    margin-top: 10px;
                 }
             }
         }

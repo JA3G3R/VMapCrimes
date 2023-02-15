@@ -1,10 +1,9 @@
 .mainhome{
     display: grid;
-    background-image: linear-gradient(
-    -45deg,red,rgb(243, 112, 47),blue,orangered,blue 80%,indigo);
+    
 
     .Navbar{
-        background: rgba(151, 150, 150, 0.485);
+        background:aliceblue; //rgba(151, 150, 150, 0.485);
         height: 50px;
         border-bottom: 1px solid rgba(192, 140, 230, 0.845);
         display: flex;
@@ -27,7 +26,7 @@
         
                 padding-left: 5px;
                 padding-top: 5px;
-                color: white;
+                color: blueviolet;
                 font-weight: bold;
                 font-size: 1.4rem;
             }
@@ -63,7 +62,7 @@
                 }
             }
             .items{
-                color: white;
+                color: black;
                 display: flex;
                 align-items: center;
                 position: relative;
@@ -87,6 +86,7 @@
                     display: flex;
                     align-items: center;
                     margin-right: 20px;
+                    
                     cursor: pointer;
                     position: relative;
                     transition:all linear .5s;

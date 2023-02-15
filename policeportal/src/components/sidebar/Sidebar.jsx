@@ -12,15 +12,17 @@ import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettin
 import { Link } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
+import UserContext from "../../context/userContext";
 
 
 function Sidebar() {
+    const {isAuthenticated} = useContext(UserContext)
     const{dispatch} = useContext(DarkModeContext)
   return (
     <div className="sidebar">
         <div className="top">
             <Link to="/" style={{textDecoration:"none"}}>
-              <span className="Logo">Police Portal</span>
+              <span className="Logo">VMapCrimes</span>
             </Link>
             
         </div>
@@ -28,7 +30,7 @@ function Sidebar() {
         <div className="center">
             <ul>
                 <p className="title">MAIN</p>
-                <Link to="/portal" style={{textDecoration:"none"}}>
+                <Link to="/dashboard" style={{textDecoration:"none"}}>
                 <li>
                      <DashboardIcon className="icon" />
                     <span>Dashboard</span>
@@ -48,11 +50,7 @@ function Sidebar() {
                     <span>Roles</span>
                 </li>
                 </Link>
-                
-                <li>
-                     <NotificationsNoneOutlinedIcon className="icon" />
-                    <span>Notifications</span>
-                </li>
+            
                 <p className="title">USEFUL</p>
                 <Link to="/fir" style={{textDecoration:"none"}}>
                 <li>
@@ -64,10 +62,7 @@ function Sidebar() {
                 
                 </Link>
                 
-                <li>
-                     <InsertChartOutlinedRoundedIcon className="icon" />
-                    <span>Analytics</span>
-                </li>
+                
                 <p className="title">USER</p>
                 <li>
                      <AccountCircleOutlinedIcon className="icon" />
@@ -76,7 +71,7 @@ function Sidebar() {
                 
                 <li>
                      <ExitToAppIcon className="icon" />
-                    <span>Logout</span>
+                    {isAuthenticated?<Link to="/logout" style={{textDecoration:"none"}}><span>Logout</span></Link>:<Link to="/login" style={{textDecoration:"none"}}><span>Login</span></Link>}
                 </li>
             </ul>
         </div>

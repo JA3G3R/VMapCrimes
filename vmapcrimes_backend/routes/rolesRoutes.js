@@ -23,7 +23,7 @@ dotenv.config();
 
 
 router.post('/addRole',
-verifyAccess(),
+verifyAccess({ACTION_PERMS:["ADD_NEW_ROLE"]}),
     body('role').notEmpty().withMessage("Role name cannot be empty").isLength({min :5, max:20}).withMessage("Role names should be between 5-20 characters in length"),
 async (req,res) => {
     try {
@@ -214,7 +214,7 @@ router.get('/fetchAllRoles',verifyAccess({READ_PERMS:["READ_ALL_ROLES"]}), async
 // DELETE to http://localhost:5001/api/v1/admin/deleteRoles with an array of ids in the body
 
 router.delete('/deleteRoles',
-verifyAccess(),async (req,res) => {  
+verifyAccess({ACTION_PERMS:["DELETE_ROLE"]}),async (req,res) => {  
     
     if(!(Array.isArray(req.body.ids))) {
         return res.status(400).json({status: "failure",message: "Please send ids as array"});

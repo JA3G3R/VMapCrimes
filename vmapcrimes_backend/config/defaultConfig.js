@@ -37,6 +37,6 @@ config.DEFAULT_ADMIN_NAME = "def_admin"
 config.DEFAULT_ADMIN_ADDRESS = "Dummy Address"
 config.DEFAULT_ADMIN_PHONE = "0000000000"
 config.DEFAULT_ADMIN_EMAIL = "admin@vmapcrimes.com"
-config.PUBLICLY_ACCESSIBLE_PAGES = ["/api/auth/login","/api/fetch/fetchFIR"]
+config.PUBLICLY_ACCESSIBLE_PAGES = ["/api/auth/login","/api/fetch/fetchFIR","/api/data/fetchFirCount"]
 module.exports = config;
     

@@ -93,7 +93,7 @@ router.post('/createUser',
             
                 await user.create(newUser).then(() => console.log("User successfully created"))
             
-            return res.send("Ok");
+            return res.json({status: "success",message:"User successfully added!"});
         } catch(e) {
             console.log("Error  " + e)
             if (e instanceof mongoose.Error) {

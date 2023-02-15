@@ -5,7 +5,7 @@ import CrisisAlertRoundedIcon from '@mui/icons-material/CrisisAlertRounded';
 import NoteAltOutlinedIcon from '@mui/icons-material/NoteAltOutlined';
 import PersonPinCircleOutlinedIcon from '@mui/icons-material/PersonPinCircleOutlined';
 
-function Widget({type="user"}) {
+function Widget({type="user",users=0,firs=0}) {
   let data;
 
 
@@ -15,47 +15,27 @@ function Widget({type="user"}) {
         title: "USERS",
         isMoney: false,
         link: "See all users",
-        counter:"28167",
+        counter:parseInt(users),
         icon: <PersonRoundedIcon className="icon" 
         style={{color:"green", backgroundColor: "lightgreen",
        }}
         />,
       };
       break;
-      case "cases":
-      data ={
-        title: "Cases",
-        isMoney: false,
-        link: "View all cases",
-        counter:"406",
-        icon: <CrisisAlertRoundedIcon className="icon"
-        style={{color:"crimson", backgroundColor: "rgba(255, 0, 0, .2)",
-       }}/>,
-      };
-      break;
+     
       case "fir":
       data ={
         title: "FIR Registered",
         isMoney: false,
         link: "View all Fir",
-        counter:"201",
+        counter:parseInt(firs),
         icon: <NoteAltOutlinedIcon className="icon"
         style={{color:"darkgoldenrod", backgroundColor: "rgba(218, 165,32, .2)",
        }}
         />,
       };
       break;
-      case "area":
-      data ={
-        title: "Location",
-        isMoney: false,
-        link: "See near Location",
-        counter:"Delhi",
-        icon: <PersonPinCircleOutlinedIcon className="icon"
-        style={{color:"green", backgroundColor: "lightgreen",
-       }}/>,
-      };
-      break;
+
     default:
       break;
   }

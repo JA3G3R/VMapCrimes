@@ -17,9 +17,6 @@ function Featured() {
               <span className="Crime">Last Week<KeyboardArrowUpRoundedIcon className="icon"/></span>
               <span className="Crime">Last Month<KeyboardArrowUpRoundedIcon className="icon"/></span>
             </div>
-            
-            
-            
         </div>
       </div>
     </div>

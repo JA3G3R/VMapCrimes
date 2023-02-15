@@ -6,43 +6,47 @@ import FullscreenOutlinedIcon from '@mui/icons-material/FullscreenOutlined';
 import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined';
 import ChatBubbleOutlineRoundedIcon from '@mui/icons-material/ChatBubbleOutlineRounded';
 import FormatListBulletedRoundedIcon from '@mui/icons-material/FormatListBulletedRounded';
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { DarkModeContext } from "../../context/darkModeContext";
+import jwt from 'jwt-decode'
 
 function Navbar() {
   const{dispatch} = useContext(DarkModeContext)
+  const [auth , setAuth] = useState(false)
+  const [user, setUser ] = useState({})
+
+  useEffect(()=> {
+    if(document.cookie.indexOf('auth-token=') === -1) {
+      setUser({name:"Guest"})
+      return
+    }else{
+      var cookies = document.cookie.split(";")
+      // console.log("Cookies: "+cookies)
+
+      var cookiesParsed=cookies.filter((item)=>{return item.indexOf('auth-token=') !== -1} ) // returns array [['name1','value1']...]
+      // console.log("Cookies Parsed: "+cookiesParsed)
+      var authToken = cookiesParsed[0].split("=")[1]
+      var authuser = jwt(authToken)
+      console.log("User : "+JSON.stringify(authuser))
+      setUser(authuser)
+      setAuth(true)
+    }
+
+  },[])
+
   return (
     
       <div className="Navbar">
         <div className="wrapper">
-        <div className="Welcome">Welcome.. Admin</div>
-          <div className="search">
-            
-            <input type="text" placeholder="Search..." style={{color: "gray"}}/>
-            <SearchOutlinedIcon className="icon"/>
-          </div>
+        <div className="Welcome">Dashboard | {auth?user.username:"App User"}</div>
+          
           <div className="items">
-            <div className="item">
-              <LanguageOutlinedIcon className="icon"/>
-              English
-            </div>
+            
             <div className="item">
               <DarkModeOutlinedIcon className="icon" onClick={()=>dispatch({type:"TOGGLE"})}/>
             </div>
-            <div className="item">
-              <FullscreenOutlinedIcon className="icon"/>
-            </div>
-            <div className="item">
-              <NotificationsActiveOutlinedIcon className="icon"/>
-              <div className="counter">1</div>
-            </div>
-            <div className="item">
-              <ChatBubbleOutlineRoundedIcon className="icon"/>
-              <div className="counter">2</div>
-            </div>
-            <div className="item">
-              <FormatListBulletedRoundedIcon className="icon"/>
-            </div>
+            
+            
             <div className="item">
               <img src="https://static.thenounproject.com/png/2643367-200.png"
               alt="admin"
