@@ -32,6 +32,8 @@ config.CURRENTLY_DEFINED_ROLES =
       ]
      
     }
+  
+
 config.DEFAULT_ADMIN_PASS = "@Adm!n!S4B0V3_a113ls3"
 config.DEFAULT_ADMIN_NAME = "def_admin"
 config.DEFAULT_ADMIN_ADDRESS = "Dummy Address"

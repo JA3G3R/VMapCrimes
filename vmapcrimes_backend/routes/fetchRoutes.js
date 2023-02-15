@@ -29,7 +29,7 @@ const firRbaced = async (roleid, result) => {
             ...((roleid && userRole && (isAdmin || userRole.read_perms.includes("CRIME_DETAILS"))) ? { details: fir.Incident_details } : {}),
         }
     })
-    console.log("To Send: " + toSend)
+    // console.log("To Send: " + toSend)
 
     return toSend
 }
@@ -46,15 +46,14 @@ router.get('/fetchFIR', async (req, res) => {
     const penalCode = req.query.penalCode;
     const textSearch = req.query.textSearch
     let query = FIR.find({});
-    var role
+    var role, userRole
     if (req.cookies) {
         try {
 
             role = jwt_decode(req.cookies['auth-token']).role
-            var userRole = await Role.findOne({ _id: roleid })
+            userRole = await Role.findOne({ _id: role })
         } catch (e) {
             console.log(e)
-            
         }
     }
 
@@ -75,7 +74,7 @@ router.get('/fetchFIR', async (req, res) => {
     }
 
     if (address) {
-        query.where('Address').equals(address);
+        query.where({ $text: { $search: address, $path: "Address" } });
     }
 
     if (penalCode) {
@@ -89,14 +88,14 @@ router.get('/fetchFIR', async (req, res) => {
     }
     if (role) {
 
-        if (textSearch) {
+        if (textSearch && ((userRole.name && userRole.name==="admin") ||  (userRole && userRole.read_perms.includes("CRIME_DETAILS")) )) {
             query.where({ $text: { $search: textSearch } }, { matchedFields: { $meta: "textMatchedFields" } });
         }
 
     }
 
     query.exec(async (error, result) => {
-        console.log("Result is " + result)
+        // console.log("Result is " + result)
         // console.log("Matched fields are: "+matchedFields)
         if (error) {
             return res.status(500).json({ status: "failure", error: error });

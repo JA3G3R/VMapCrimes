@@ -82,4 +82,5 @@ FIRSchema.index({Incident_Highlight: 'text',Incident_details:'text' },{weights: 
     Incident_Highlight: 5,
     Incident_details:2
 }});
+FIRSchema.index({Address: 'text' });
 module.exports = mongoose.model('FIR', FIRSchema)

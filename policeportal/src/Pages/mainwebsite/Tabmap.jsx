@@ -4,12 +4,13 @@ import SearchIcon from '@mui/icons-material/Search';
 
 import { State, City } from 'country-state-city';
 import MapContext from "../../context/mapContext";
-
+import UserContext from "../../context/userContext";
 
 // Import Interfaces`
 
 
 function Tabmap() {
+  const {authuser} = useContext(UserContext)
   const { filters, setFilters,firSelected,firsDisplayed} = useContext(MapContext)
   const [cities, setCities] = useState([{ name: '' }])
   const [state, setState] = useState()
@@ -77,29 +78,29 @@ function Tabmap() {
           <span>
             {/* TODO: implement RBAC here */}
             {firSelected?<>
-            <u><h4>Highlight</h4></u>
-            <span><h5>{"["+firSelected.type +"] "+ firSelected.highlight}</h5></span>
-            <u><h4>Address</h4></u>
-            <span><h5>{firSelected.address+", "+firSelected.crimeCity+", "+firSelected.crimeState}</h5></span>
-            <u><h4>Date & Time</h4></u>
-            <span><h5>{firSelected.timestamp.split("T")[0] +" At "+firSelected.timestamp.split("T")[1].split('.')[0]}</h5></span>
-            <u><h4> Penal Code</h4></u>
-            <span><h5>{firSelected.penalCode}</h5></span>
+            <h4 style={{color:"green"}}>Highlight</h4>
+            <span><h5>{"["+firSelected.type +"] "+ firSelected.highlight}</h5></span><br />
+            <h4 style={{color:"green"}}>Address</h4>
+            <span><h5>{firSelected.address+", "+firSelected.crimeCity+", "+firSelected.crimeState}</h5></span><br />
+            <h4 style={{color:"green"}}>Date & Time</h4>
+            <span><h5>{firSelected.timestamp.split("T")[0] +" At "+firSelected.timestamp.split("T")[1].split('.')[0]}</h5></span><br />
+            <h4 style={{color:"green"}}> Penal Code</h4>
+            <span><h5>{firSelected.penalCode}</h5></span><br />
             {firSelected.details?<>
-            <u><h4> Crime Details</h4></u>
-            <span><h5>{firSelected.details}</h5></span></>:null}
+            <h4 style={{color:"green"}}> Crime Details</h4>
+            <span><h5>{firSelected.details}</h5></span><br /></>:null}
             {firSelected.suspect?<>
-            <u><h4> Name of Accused</h4></u>
-            <span><h5>{firSelected.suspect}</h5></span></>:null}
+            <h4 style={{color:"green"}}> Name of Accused</h4>
+            <span><h5>{firSelected.suspect}</h5></span><br /></>:null}
             {firSelected.victim?<>
-            <u><h4> Name of Victim</h4></u>
-            <span><h5>{firSelected.victim}</h5></span></>:null}
+            <h4 style={{color:"green"}}> Name of Victim</h4>
+            <span><h5>{firSelected.victim}</h5></span><br /></>:null}
             {firSelected.relation?<>
-            <u><h4> Relation with Accused</h4></u>
-            <span><h5>{firSelected.relation}</h5></span></>:null}
+            <h4 style={{color:"green"}}> Relation with Accused</h4>
+            <span><h5>{firSelected.relation}</h5></span><br /></>:null}
             {firSelected.weapon?<>
-            <u><h4> Weapon Used</h4></u>
-            <span><h5>{firSelected.weapon}</h5></span></>:null}
+            <h4 style={{color:"green"}}> Weapon Used</h4>
+            <span><h5>{firSelected.weapon}</h5></span><br /></>:null}
            
             
             </>:"Click on a marker to view report details"}
@@ -128,11 +129,12 @@ function Tabmap() {
               </select>
               <br />
               <br />
+              {(authuser && authuser.read_perms && authuser.read_perms.includes("CRIME_DETAILS")) || (authuser && authuser.rolename && authuser.rolename === "admin") ? <>
               <div className="Searchtype">
                 <h2 className="spanning">Search <SearchIcon style={{ fontSize: "20px" }} /><hr /></h2>
 
                 <input type="search" placeholder="Search here.." name="textSearch" className="inputsearch" onChange={onChange} />
-              </div>
+              </div></>: null}
               <div className="dates">
                 <label style={{ display: "grid", fontSize: "18px" }}>Date Before:<input type="date" name="dateBefore" className="dd_mm" onChange={onChange} /></label>
                 <label style={{ display: "grid", fontSize: "18px" }}>Date After:<input type="date" name="dateAfter" className="dd_mm" onChange={onChange} /></label>
@@ -147,6 +149,7 @@ function Tabmap() {
                 <input type="text" name="address" placeholder="Search here.." className="inputsearch" onChange={onChange} />
               </div>
               <br />
+              
               <div className="city">
                 <label style={{ fontSize: "20px", display: "grid", fontWeight: "500" }}>State<br />
                   <select className="state_city" onChange={stateSelected}><option value="">Select a State</option> {states.map(stateItem => (

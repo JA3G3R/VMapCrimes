@@ -11,6 +11,7 @@ function Widget({type="user",users=0,firs=0}) {
 
 
   switch (type) {
+
     case "user":
       data ={
         title: "USERS",
