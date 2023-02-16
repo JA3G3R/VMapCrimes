@@ -10,9 +10,10 @@ const Login = () => {
     const navigate = useNavigate()
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
+    const [submitted,setSubmitted] = useState(false)
+    const [loginErr,setLoginErr] = useState("")
 useEffect(()=>{
-
+    setSubmitted(false)
     if(isAuthenticated){
         navigate("/dashboard",{replace: true})
     }
@@ -31,7 +32,8 @@ useEffect(()=>{
         var sendLogin= await fetch('http://localhost:5001/api/auth/login',options)
         var loginRes = await sendLogin.json()
         if(loginRes && loginRes.status && loginRes.status==="failure") {
-            console.log("Login Failed")
+            console.log("Setting Errors to "+JSON.stringify(loginRes.message))
+            setLoginErr(loginRes.message.errors)
         }else {
             setIsAuthenticated(true)
             navigate("/", {replace:true})
@@ -49,6 +51,7 @@ useEffect(()=>{
                 <input type="email" placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} required/>
                 <input type="password" placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} required/>
                 <button type='submit' onClick={handleFormSubmit} className='submit__btn'>Login</button>
+                {submitted?loginErr?<span style={{color:"red"}}>Login failed {loginErr?<><ul>{loginErr.map((item)=><li>{item.param+": "+item.msg}</li>)}</ul></>:null}</span> :null:null}
                 <Link to="/" style={{textDecoration:"none",marginTop:"2rem",fontSize:"1.5rem"}}>Continue to main page...</Link>
 
             </form>

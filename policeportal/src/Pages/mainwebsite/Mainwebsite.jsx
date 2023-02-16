@@ -10,15 +10,21 @@ import { DarkModeContext } from "../../context/darkModeContext";
 import "./mainwebsite.scss"
 import 'leaflet/dist/leaflet.css'
 import Icon from "../../location-sign-svgrepo-com.svg";
+import RapeIcon from "../../rape-marker.svg"
+import MurderIcon from "../../murder-marker.svg"
+import TheftIcon from "../../theft-marker.svg"
+import KidnapIcon from "../../kidnapping-marker.svg"
+
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import Tabmap from './Tabmap';
 import MapContext from '../../context/mapContext';
+import UserContext from '../../context/userContext';
 
 
 function Mainwebsite() {
 
   const { firsDisplayed, setFirsDisplayed, filters,firSelected,setFirSelected } = useContext(MapContext)
-
+  const {isAuthenticated} = useContext(UserContext)
 
   const fetchData = async () => {
     const options = {
@@ -46,7 +52,6 @@ function Mainwebsite() {
   useEffect(() => {
 
     fetchData()
-
 
   }, [filters])
   const { dispatch } = useContext(DarkModeContext)
@@ -86,6 +91,8 @@ function Mainwebsite() {
             <Link to="/login">
               <div className="item">
                 <LoginIcon className='icon' />
+              {isAuthenticated?<Link to="/logout" style={{textDecoration: "none !important"}}>Logout</Link>:<Link to="/login" style={{textDecoration: "none !important "}}>Login</Link>}
+                
               </div>
             </Link>
 
@@ -98,7 +105,7 @@ function Mainwebsite() {
           <MarkerClusterGroup
             chunkedLoading
           >
-            
+                 
             {firsDisplayed.map((fir, index) => (
               <Marker
               key={index}
@@ -114,12 +121,13 @@ function Mainwebsite() {
               <Popup minwidth={80} className="popup">
                 
                 <ul>
-                  {/* <li>
-                    <p>Victim: <span>Jane</span> </p>
-                  </li>
+                  {firSelected?firSelected.victim?<li>
+                    <p>Victim: <span>{fir.victim}</span> </p>
+                  </li>:null:null}
+                  {firSelected?firSelected.suspect?
                   <li>
-                    <p>Suspect: <span>Jane</span> </p>
-                  </li> */}
+                    <p>Suspect: <span>{fir.suspect}</span> </p>
+                  </li>:null:null}
                   <li>
                     <p>CrimeType: <span>{fir.type}</span> </p>
                   </li>

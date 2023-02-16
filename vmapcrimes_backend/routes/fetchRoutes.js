@@ -6,35 +6,48 @@ const Role = require("../models/Roles")
 const jwt_decode = require('jwt-decode')
 const router = express.Router();
 const mongoose = require("mongoose")
+require("dotenv").config()
+
 // Returns an array of form [fir_id,lat,lng]
-
+const jwt = require('jsonwebtoken')
 const firRbaced = async (roleid, result) => {
-    var userRole, isAdmin;
-    if (roleid) {
+    try{
 
-        userRole = await Role.findOne({ _id: roleid })
-        isAdmin = userRole.name === "admin"
-    }
-    // console.log("User is : "+userRole.name)
-    // visible to user with least privileges
-    var toSend = result.map((fir) => {
-        return {
-            _id: fir._id, coords: fir.Location.coordinates, type: fir.Type_of_incident, highlight: fir.Incident_Highlight, timestamp: fir.Timestamp_of_Crime, address: fir.Address, crimeCity: fir.Crime_City, penalCode: fir.Penal_code, crimeState: fir.Crime_State,
-
-            //visible to user with CRIME_SUSPECTS permission
-            ...((roleid && userRole && (isAdmin || userRole.read_perms.includes("CRIME_SUSPECTS"))) ? { suspect: fir.Name_of_accused } : {}),
-            ...((roleid && userRole && (isAdmin || userRole.read_perms.includes("CRIME_VICTIM"))) ? { victim: fir.Victim_Name } : {}),
-            ...((roleid && userRole && (isAdmin || userRole.read_perms.includes("ACCUSED_VICTIM_RELATION"))) ? { relation: fir.Relation_with_accused } : {}),
-            ...((roleid && userRole && (isAdmin || userRole.read_perms.includes("CRIME_USED_WEAPONS"))) ? { weapon: fir.Weapons_Used } : {}),
-            ...((roleid && userRole && (isAdmin || userRole.read_perms.includes("CRIME_DETAILS"))) ? { details: fir.Incident_details } : {}),
+        var userRole, isAdmin;
+        if (roleid) {
+            
+            userRole = await Role.findOne({ _id: roleid })
+            isAdmin = userRole.name === "admin"
+            // console.log("In firRbaced")
+            // console.log(isAdmin)
+            // console.log(userRole)
         }
-    })
-    // console.log("To Send: " + toSend)
+        // console.log("User is : "+userRole.name)
+        // visible to user with least privileges
+        var toSend = result.map((fir) => {
+            return {
+                _id: fir._id, coords: fir.Location.coordinates, type: fir.Type_of_incident, highlight: fir.Incident_Highlight,zip:fir.Zip, timestamp: fir.Timestamp_of_Crime, address: fir.Address, crimeCity: fir.Crime_City, penalCode: fir.Penal_code, crimeState: fir.Crime_State,
+    
+                //visible to user with CRIME_SUSPECTS permission
+                ...((roleid && userRole && (isAdmin || userRole.read_perms.includes("CRIME_SUSPECTS"))) ? { suspect: fir.Name_of_accused } : {}),
+                ...((roleid && userRole && (isAdmin || userRole.read_perms.includes("CRIME_VICTIM"))) ? { victim: fir.Victim_Name } : {}),
+                ...((roleid && userRole && (isAdmin || userRole.read_perms.includes("ACCUSED_VICTIM_RELATION"))) ? { relation: fir.Relation_with_accused } : {}),
+                ...((roleid && userRole && (isAdmin || userRole.read_perms.includes("CRIME_USED_WEAPONS"))) ? { weapon: fir.Weapons_Used } : {}),
+                ...((roleid && userRole && (isAdmin || userRole.read_perms.includes("CRIME_DETAILS"))) ? { details: fir.Incident_details } : {}),
+            }
+        })
+        // console.log("To Send: " + toSend)
+    
+        return toSend
+    }catch(e) {
+        console.log(e)
+        return -1
 
-    return toSend
+    }
 }
 
 router.get('/fetchFIR', async (req, res) => {
+    console.log(req.cookies)
 
     const dateBefore = req.query.dateBefore;
     const dateAfter = req.query.dateAfter;
@@ -46,14 +59,20 @@ router.get('/fetchFIR', async (req, res) => {
     const penalCode = req.query.penalCode;
     const textSearch = req.query.textSearch
     let query = FIR.find({});
-    var role, userRole
+    var role, userRole,id
     if (req.cookies) {
         try {
 
             role = jwt_decode(req.cookies['auth-token']).role
+            uid = jwt_decode(req.cookies['auth-token']).id
+            const user = await User.findOne({_id:uid})
+            const priv_key = user.private_key
+            const decoded = jwt.verify(req.cookies['auth-token'],process.env.JWT_SECRET_KEY+priv_key)
+
             userRole = await Role.findOne({ _id: role })
         } catch (e) {
             console.log(e)
+            role=""
         }
     }
 
@@ -101,12 +120,15 @@ router.get('/fetchFIR', async (req, res) => {
             return res.status(500).json({ status: "failure", error: error });
         }
 
+        const toSend = await firRbaced(role, result)
         
-        const toSend = await firRbaced(role ? role : "", result)
 
         // const {Location,_id} = result;
         // const toSend = [_id,...Location.coordinates]
-        res.json({ status: "success", result: toSend, message: "Fetched FIRs, Success!" })
+        if(toSend===-1) {
+            return res.status(500).json({status:"failure",message:"Some error occured"})
+        }
+        return res.json({ status: "success", result: toSend, message: "Fetched FIRs, Success!" })
     });
 
 });

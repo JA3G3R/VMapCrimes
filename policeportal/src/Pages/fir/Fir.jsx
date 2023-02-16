@@ -7,21 +7,25 @@ import { MapContainer, TileLayer } from "react-leaflet"
 import DraggbleMarker from "../../components/Markers/DraggbleMarker"
 import UserContext from "../../context/userContext";
 import { useNavigate } from "react-router-dom";
+import { setRef } from "@mui/material";
 
 const Fir = () => {
-  const { isAuthenticated, verifyAuth } = useContext(UserContext)
+  const { isAuthenticated, verifyAuth, verifyAccess } = useContext(UserContext)
   const [latlong, setLatLong] = useState({ lat: 0.00, lng: 0.00 });
   const [cities, setCities] = useState([{ name: '' }])
   const [state, setState] = useState()
   const [toggleState, setToggleState] = useState(1);
   const states = State.getStatesOfCountry("IN")
   const [data, setData] = useState();
-  const [timestamp, setTimeStamp] = useState({ date: "", min: "00", hr: "00" })
+  const [timestamp, setTimeStamp] = useState({ date: "", min: "", hr: "" })
   const [crimeDate, setCrimeDate] = useState(" ")
   const nav = useNavigate()
   const [errs, setErrs] = useState()
+  const [submitted,setSubmitted] = useState(false)
+  const [submitErr,setSubmitErr] = useState()
 
   const handleFormSubmit = async (e) => {
+
     e.preventDefault()
 
     // setting errors 
@@ -39,18 +43,16 @@ const Fir = () => {
       'Crime_City',
       'Crime_State',
       'Timestamp_of_Crime']
-    var newErrs 
+    var newErrs
     req_fields.every(async (i) => {
       if (!data.hasOwnProperty(i)) {
-        console.log(i)
-        newErrs={...newErrs,[i]:true}
-       
+        newErrs = { ...newErrs, [i]: true }
       }
       return true
     })
     setErrs(newErrs)
     console.log(newErrs)
-    if(!newErrs) {
+    if (!newErrs) {
 
       const options = {
         method: 'POST',
@@ -60,13 +62,19 @@ const Fir = () => {
         },
         body: JSON.stringify(data)
       }
-  
+
       const postRes = await fetch(
         'http://localhost:5001/api/data/uploadFir', options
       )
       const postResJSON = await postRes.json()
       if (!verifyAuth(postRes, postResJSON)) {
-        console.log("User unauthenticated")
+        nav('/logout',{replace:true})
+      }else{
+        if(postResJSON.status==="failure") {
+          setSubmitErr(postResJSON.message.errors?postResJSON.message.errors:postResJSON.message)
+          console.log(submitErr)
+          
+        }
       }
     }
 
@@ -98,7 +106,6 @@ const Fir = () => {
 
   const handleChange = (event) => {
     setData({ ...data, [event.target.name]: event.target.value });
-    console.log("Data is " + JSON.stringify(data))
   };
 
   const toggleTab = (index) => {
@@ -118,12 +125,17 @@ const Fir = () => {
     if (!isAuthenticated) {
       nav("/login", { replace: true })
     }
-    console.log("Setting TimeStamp in data")
-    setCrimeDate(makeDate(timestamp))
+    setErrs("")
+    setSubmitErr("")
+    if(timestamp.date){
+
+      console.log("Setting TimeStamp in data")
+      setCrimeDate(makeDate(timestamp))
+
+    }
+
     const newData = { ...data, Timestamp_of_Crime: makeDate(timestamp) }
-    console.log("New Data: " + JSON.stringify(newData))
     setData(newData)
-    console.log("Form Data: " + JSON.stringify(data))
     setCrimeDate(makeDate(timestamp))
 
     // wrapping async call in a promise
@@ -149,7 +161,6 @@ const Fir = () => {
     }
     if (latlong.lat === 0.0) {
       returnUserPos()
-
     }
 
 
@@ -162,12 +173,16 @@ const Fir = () => {
       <div className="fircontainer">
         <Navbar />
         <div className="header">
+
           <div className="container">
+            
+            {verifyAccess({ ACTION_PERMS: ["CREATE_FIR"] }) ? <>
+
             <div className="left">
               <h2>FIR FORM</h2>
               <form>
 
-              {errs && errs.Name_of_accused ? <p style={{ color: "red !important" }}>This field can not be empty</p> : null}
+                {errs && errs.Name_of_accused ? <p style={{ color: "red !important" }}>This field can not be empty</p> : null}
 
                 Name of accused:
                 <input type="text" placeholder="Enter the Name" name="Name_of_accused" onChange={handleChange} id="Accused_name" />
@@ -182,8 +197,9 @@ const Fir = () => {
 
 
                   <label>
+                  {errs && errs.Type_of_incident ? <p style={{ color: "red !important" }}>This field can not be empty</p> : null}
                     Type of Incident:
-                    {errs && errs.Type_of_incident ? <p style={{ color: "red !important" }}>This field can not be empty</p> : null}
+                   
                     <select style={{ border: "none", borderBottom: "2px solid blue" }} name="Type_of_incident" onChange={handleChange}>
                       <option>Choose Options</option>
                       <option>Murder</option>
@@ -197,7 +213,7 @@ const Fir = () => {
                   </label>
 
                   <label>
-                  {errs && errs.Zip ? <p style={{ color: "red !important" }}>This field can not be empty</p> : null}
+                    {errs && errs.Zip ? <p style={{ color: "red !important" }}>This field can not be empty</p> : null}
 
                     Incident Zip:
                     <input type="number" onChange={handleChange} name="Zip" placeholder="Enter Zip" id="Zip_code" />
@@ -226,15 +242,15 @@ const Fir = () => {
                 <br /><br />
 
                 <span>
-                  <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                  <a className="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                     Penal Code ⮟
                   </a>
 
                 </span>
 
-                <div class="collapse" id="collapseExample">
-                  <div class="card card-body">
-                  {errs && errs.Penal_code ? <p style={{ color: "red !important" }}>This field can not be empty</p> : null}
+                <div className="collapse" id="collapseExample">
+                  <div className="card card-body">
+                    {errs && errs.Penal_code ? <p style={{ color: "red !important" }}>This field can not be empty</p> : null}
 
                     <input type="text" required={true} placeholder="Penal Code.." name="Penal_code" onChange={handleChange} style={{ textDecoration: "none", border: "2px solid blue", padding: "5px", fontSize: "1rem", borderRadius: "2px" }} />
                     121, 141, 144, 146, 147, 148, 151, 153-A, 295-A, 268, 302, 304-B, 307, 322, 324, 351, 354, 509, 498-A, 363, 364, 365, 366, 376, 379, 380, 383, 390, 391, 392,395, 396, 397,411, 420, 441, 442, 447,448,454, 457, 465, 467,468,470,471, 489-A, 504,506
@@ -242,49 +258,52 @@ const Fir = () => {
                 </div>
               </form>
             </div>
-            <div className="right">
-              <h3>Applicant's Details:</h3>
+              <div className="right">
+                <h3>Applicant's Details:</h3>
 
-              <form>
-                {errs && errs.Victim_Name ? <p style={{ color: "red !important" }}>This field can not be empty</p> : null}
-                Name:
-                <input type="text" onChange={handleChange} name="Victim_Name" placeholder="Enter Victim's/Informant's Name" id="Name" />
-                {errs && errs.Officers_Name ? <p style={{ color: "red !important" }}>This field can not be empty</p> : null}
-                Name of Police Officer:
-                <input type="text" onChange={handleChange} name="Officers_Name" placeholder="Officer's Name" id="Par_name" />
-                {errs && errs.Address ? <p style={{ color: "red !important" }}>This field can not be empty</p> : null}
-                Address:
-                <input type="text" onChange={handleChange} name="Address" placeholder="Enter Your Address" id="address" />
-                {errs && errs.Contact_Number ? <p style={{ color: "red !important" }}>This field can not be empty</p> : null}
-                Contact No.:
-                <input type="number" onChange={handleChange} name="Contact_Number" placeholder="Enter Ph No." id="cont_no" />
-                {errs && errs.Relation_with_accused ? <p style={{ color: "red !important" }}>This field can not be empty</p> : null}
-                Relation with Accused:
-                <input type="text" onChange={handleChange} name="Relation_with_accused" placeholder="Relation" id="Relation" />
-                {errs && errs.Incident_Highlight ? <p style={{ color: "red !important" }}>This field can not be empty</p> : null}
+                <form>
+                  {errs && errs.Victim_Name ? <p style={{ color: "red !important" }}>This field can not be empty</p> : null}
+                  Name:
+                  <input type="text" onChange={handleChange} name="Victim_Name" placeholder="Enter Victim's/Informant's Name" id="Name" />
+                  {errs && errs.Officers_Name ? <p style={{ color: "red !important" }}>This field can not be empty</p> : null}
+                  Name of Police Officer:
+                  <input type="text" onChange={handleChange} name="Officers_Name" placeholder="Officer's Name" id="Par_name" />
+                  {errs && errs.Address ? <p style={{ color: "red !important" }}>This field can not be empty</p> : null}
+                  Address:
+                  <input type="text" onChange={handleChange} name="Address" placeholder="Enter Your Address" id="address" />
+                  {errs && errs.Contact_Number ? <p style={{ color: "red !important" }}>This field can not be empty</p> : null}
+                  Contact No.:
+                  <input type="number" onChange={handleChange} name="Contact_Number" placeholder="Enter Ph No." id="cont_no" />
+                  {errs && errs.Relation_with_accused ? <p style={{ color: "red !important" }}>This field can not be empty</p> : null}
+                  Relation with Accused:
+                  <input type="text" onChange={handleChange} name="Relation_with_accused" placeholder="Relation" id="Relation" />
+                  {errs && errs.Incident_Highlight ? <p style={{ color: "red !important" }}>This field can not be empty</p> : null}
 
-                Incident Highlight:
-                <input type="text" onChange={handleChange} name="Incident_Highlight" placeholder="Enter the highlights.." id="Inci_high" />
-                {errs && errs.Incident_details ? <p style={{ color: "red !important" }}>This field can not be empty</p> : null}
+                  Incident Highlight:
+                  <input type="text" onChange={handleChange} name="Incident_Highlight" placeholder="Enter the highlights.." id="Inci_high" />
+                  {errs && errs.Incident_details ? <p style={{ color: "red !important" }}>This field can not be empty</p> : null}
 
-                Incident details:
-                <input type="text" onChange={handleChange} name="Incident_details" placeholder="Enter the details.." id="Inci_det" />
+                  Incident details:
+                  <input type="text" onChange={handleChange} name="Incident_details" placeholder="Enter the details.." id="Inci_det" />
 
-                {latlong.lat ? <><label style={{ marginTop: "8px" }}><b>Drag the marker to select the place of crime</b></label><MapContainer center={latlong} zoom={13} scrollWheelZoom={true} style={{ height: "20rem", width: "auto" }}>
-                  <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://api.maptiler.com/maps/openstreetmap/256/{z}/{x}/{y}.jpg?key=elXXra8KVLZtccfmuC0Y"
-                  />
-                  <DraggbleMarker latlong={latlong} setLatLong={setLatLong} />
-                </ MapContainer></> : <h3> Trying to fetch station location, Please make sure to allow location for this site </h3>}
+                  {latlong.lat ? <><label style={{ marginTop: "8px" }}><b>Drag the marker to select the place of crime</b></label><MapContainer center={latlong} zoom={13} scrollWheelZoom={true} style={{ height: "20rem", width: "auto" }}>
+                    <TileLayer
+                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                      url="https://api.maptiler.com/maps/openstreetmap/256/{z}/{x}/{y}.jpg?key=elXXra8KVLZtccfmuC0Y"
+                    />
+                    <DraggbleMarker latlong={latlong} setLatLong={setLatLong} />
+                  </ MapContainer></> : <h3> Trying to fetch station location, Please make sure to allow location for this site </h3>}
 
-                <input type="hidden" value={latlong.lat} id="lat" />
-                <input type="hidden" value={latlong.lng} id="long" />
+                  <input type="hidden" value={latlong.lat} id="lat" />
+                  <input type="hidden" value={latlong.lng} id="long" />
 
-                <input type="submit" value="Submit" onClick={handleFormSubmit} id="Submit" />
-              </form>
+                  <input type="submit" value="Submit" onClick={handleFormSubmit} id="Submit" />
+                  { submitted?submitErr?Array.isArray(submitErr) ?<span style={{color:"red"}}><ul>{submitErr.map((item)=><li>{item.param+": "+item.msg}</li>)}</ul></span> :submitErr:null:null}
+                </form>
+              </div>
+             
+            </>: <h3>You don't have permissions to register an FIR</h3> }
             </div>
-          </div>
         </div>
       </div>
     </div>

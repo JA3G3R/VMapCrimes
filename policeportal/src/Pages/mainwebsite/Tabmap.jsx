@@ -81,7 +81,7 @@ function Tabmap() {
             <h4 style={{color:"green"}}>Highlight</h4>
             <span><h5>{"["+firSelected.type +"] "+ firSelected.highlight}</h5></span><br />
             <h4 style={{color:"green"}}>Address</h4>
-            <span><h5>{firSelected.address+", "+firSelected.crimeCity+", "+firSelected.crimeState}</h5></span><br />
+            <span><h5>{firSelected.address+", "+firSelected.crimeCity+", "+firSelected.crimeState+", "+firSelected.zip}</h5></span><br />
             <h4 style={{color:"green"}}>Date & Time</h4>
             <span><h5>{firSelected.timestamp.split("T")[0] +" At "+firSelected.timestamp.split("T")[1].split('.')[0]}</h5></span><br />
             <h4 style={{color:"green"}}> Penal Code</h4>
@@ -142,11 +142,6 @@ function Tabmap() {
               <div className="codes">
                 <label style={{ display: "grid", fontSize: "18px" }}>Zipcode<input type="number" name="zipCode" placeholder="zipcode" className="dd_mm"  onChange={onChange}/></label>
 
-              </div><br />
-              <div className="Searchtype">
-                <h2>Address Search <SearchIcon style={{ fontSize: "20px" }} /><hr /></h2>
-
-                <input type="text" name="address" placeholder="Search here.." className="inputsearch" onChange={onChange} />
               </div>
               <br />
               

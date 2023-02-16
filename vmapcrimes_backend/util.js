@@ -22,7 +22,6 @@ const makeSecretKey = async (req,token) => {
             var key = process.env.JWT_SECRET_KEY+user.private_key
             return key
         } else{
-            console.log("2")
 
             return null
         }

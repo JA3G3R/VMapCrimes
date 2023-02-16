@@ -13,17 +13,14 @@ const New = () => {
   const { userId } = useParams();
   const [updated, setUpdated] = useState(0)
   const [message, setMessage] = useState(false)
+  var username
   const nav = useNavigate()
+
   const handleChange = (event) => {
     var data = { ...user, [event.target.name]: event.target.value };
-    var newData = {}
-    for (let i in newData) {
-      if (data[i]) {
-        newData[i] = data[i]
-      }
-    }
+  
 
-    setUser(newData);
+    setUser(data);
 
   };
 
@@ -34,13 +31,16 @@ const New = () => {
       }
       var fetchedUser = await fetch(`http://localhost:5001/api/users/fetchUser/${userId}`, options)
       var fetchedUserJSON = await fetchedUser.json()
-      verifyAccess(fetchUser, fetchedUserJSON)
+      if(verifyAccess(fetchedUser, fetchedUserJSON)){
+        setUser(fetchedUserJSON)
+      }
     }
     if (!isAuthenticated) {
       nav("/login", { replace: true })
     } else {
 
       fetchUser()
+      
     }
   }, [])
 
@@ -74,7 +74,7 @@ const New = () => {
         {isAuthenticated ?
           <>
             <div className="top">
-              <h1>Update Details of {user.name.split(" ")[0]} </h1>
+              <h1>Update Details of {user.name?user.name:"App User"} </h1>
             </div>
             <div className="bottom">
 

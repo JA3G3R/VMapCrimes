@@ -16,7 +16,7 @@ import UserContext from "../../context/userContext";
 
 
 function Sidebar() {
-    const {isAuthenticated} = useContext(UserContext)
+    const {isAuthenticated,verifyAccess} = useContext(UserContext)
     const{dispatch} = useContext(DarkModeContext)
   return (
     <div className="sidebar">
@@ -38,20 +38,24 @@ function Sidebar() {
                 </Link>
                 
                 <p className="title">LIST</p>
+                {verifyAccess({READ_PERMS:["READ_ALL_USERS"]})?
                 <Link to="/users" style={{textDecoration:"none"}}>
-                <li>
+                   <li>
                      <PersonOutlinedIcon className="icon" />
                     <span>Users</span>
                 </li>
-                </Link> 
+                
+                </Link> :null}
+                {verifyAccess({READ_PERMS:["READ_ALL_ROLES"]})?
                 <Link to="/roles" style={{textDecoration:"none"}}>
-                <li>
-                     <AdminPanelSettingsOutlinedIcon className="icon" />
+                   <li>
+                     <PersonOutlinedIcon className="icon" />
                     <span>Roles</span>
                 </li>
-                </Link>
-            
-                <p className="title">FIR</p>
+                
+                </Link> :null}
+                
+            {verifyAccess({ACTION_PERMS:["CREATE_FIR"]})?<><p className="title">FIR</p>
                 <Link to="/fir" style={{textDecoration:"none"}}>
                 <li>
                      <NoteAltOutlinedIcon className="icon" />
@@ -60,7 +64,8 @@ function Sidebar() {
                 </Link>
                 <Link to="/location" style={{textDecoration:"none"}}>
                 
-                </Link>
+                </Link></> :null}
+                
                 
                 
                 <p className="title">USER</p>

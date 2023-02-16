@@ -13,7 +13,7 @@ import MapState from "../../context/MapState"
 import MapContext from '../../context/mapContext';
 const Analytics = () => {
     const{dispatch} = useContext(DarkModeContext)
-    const {filters} = useContext(MapContext)
+    // const {filters} = useContext(MapContext)
   return (
     <div className='mainhome'>
       
@@ -59,24 +59,24 @@ const Analytics = () => {
       <MapState>
       <div className="all_chrts">
         <div className="chartitem">
-          <Chart  height={'400px'} width={'620px'} chartId={'63eba339-8e54-44c6-873e-e1c32177c364'}/> 
+          <Chart  height={'400px'} width={'520px'} chartId={'63eba339-8e54-44c6-873e-e1c32177c364'}/> 
           <Chart  height={'400px'} width={'620px'} chartId={'63eba36a-6ec5-44d0-8111-7aa4ae48fe2e'}/>
         </div>
         <div className="chartitem">
-          <Chart  height={'400px'} width={'620px'} chartId={'63eba6f6-e42b-4168-8f4a-40533504b21e'}/>
-          <Chart  height={'400px'} width={'620px'} chartId={'63eba713-28ca-4801-83e8-143058441175'}/>
+          <Chart  height={'400px'} width={'520px'} chartId={'63eba6f6-e42b-4168-8f4a-40533504b21e'}/>
+          <Chart  height={'400px'} width={'520px'} chartId={'63eba713-28ca-4801-83e8-143058441175'}/>
         </div>
         <div className="chartitem">
-          <Chart  height={'400px'} width={'620px'} chartId={'63eba617-8e54-484f-83d2-e1c3217c5f38'}/>
-          <Chart  height={'400px'} width={'620px'} chartId={'63eba642-6ec5-4820-8d14-7aa4ae4e656c'}/>
+          <Chart  height={'400px'} width={'520px'} chartId={'63eba617-8e54-484f-83d2-e1c3217c5f38'}/>
+          <Chart  height={'400px'} width={'520px'} chartId={'63eba642-6ec5-4820-8d14-7aa4ae4e656c'}/>
         </div>
         <div className="chartitem">
-          <Chart  height={'400px'} width={'620px'} chartId={'63eba49f-e42b-4c0e-8761-405335ffdd40'}/>
-          <Chart  height={'400px'} width={'620px'} chartId={'63eba4d6-1d7c-44be-8acb-780c6cda5fa7'}/>
+          <Chart  height={'400px'} width={'520px'} chartId={'63eba49f-e42b-4c0e-8761-405335ffdd40'}/>
+          <Chart  height={'400px'} width={'520px'} chartId={'63eba4d6-1d7c-44be-8acb-780c6cda5fa7'}/>
         </div>
         <div className="chartitem">
           {/* <Chart  height={'400px'} width={'620px'} chartId={''}/> */}
-          <Chart  height={'400px'} width={'620px'} chartId={'63eba762-8fc6-49b7-8ec0-aa0c569884a7'}/>
+          <Chart  height={'400px'} width={'520px'} chartId={'63eba762-8fc6-49b7-8ec0-aa0c569884a7'}/>
         </div>
        
       </div>

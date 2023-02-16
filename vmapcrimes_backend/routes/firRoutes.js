@@ -15,7 +15,7 @@ router.post('/uploadFir', verifyAccess({ ACTION_PERMS: ["CREATE_FIR"] }), [
 
     body('Zip').notEmpty().withMessage('Zip is required').isNumeric().withMessage('Zip must be a number').isLength({ min: 6, max: 6 }).withMessage("Provide a valid Zip Code"),
 
-    body('Contact_Number').notEmpty().withMessage('Contact Number is required').isNumeric().withMessage('Contact Number must be a number').isLength({ min: 10, max: 10 }).withMessage("Porvide a valid contact number"),
+    body('Contact_Number').notEmpty().withMessage('Contact Number is required').isNumeric().withMessage('Contact Number must be a number').isLength({ min: 10, max: 10 }).withMessage("Provide a valid contact number"),
 
     body('Relation_with_accused').notEmpty().withMessage('Relation with accused is required'),
 
@@ -39,10 +39,11 @@ router.post('/uploadFir', verifyAccess({ ACTION_PERMS: ["CREATE_FIR"] }), [
 
 
 ], (req, res) => {
+    try {
     console.log("In upload FIR")
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return res.status(400).json({ status:"failure",message:errors });
     }
     var { Location } = req.body
     console.log(typeof req.body.Location.coordinates[0])
@@ -51,7 +52,19 @@ router.post('/uploadFir', verifyAccess({ ACTION_PERMS: ["CREATE_FIR"] }), [
     console.log(typeof req.body.Location.coordinates[0])
     const Report = FIR(req.body);
     Report.save();
-    res.send(req.body);
+    res.json({status:"success",message:"FR uploaded successfully"});
+} catch (e) {
+    console.log("Error occured in fetchFirCount: " + e)
+
+    if (e instanceof mongoose.Error) {
+        return res.status(500).json({ status: "failure", message: "Failed to query Database" })
+
+    } else {
+
+        return res.status(500).json({ status: "failure", message: "Some unknown error occured" })
+
+    }
+}
 });
 
 router.get("/fetchFirCount", async (req, res) => {

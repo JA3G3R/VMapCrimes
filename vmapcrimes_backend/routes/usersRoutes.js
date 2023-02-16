@@ -26,12 +26,9 @@ dotenv.config();
 
 router.post('/createUser',
 
-    // TODO : create the middleware
-    // middleware to check if the user is admin
+    // middleware to check if the user has permissions to create new users
     verifyAccess({ACTION_PERMS:["CREATE_USER"]}),
     [
-
-        // TODO : add proper sanitization to name and address fields
 
         // check if email is not empty and a valid email address
         body('email').notEmpty().withMessage("Email must not be empty").isEmail().withMessage("Must be a valid email"),
@@ -348,7 +345,7 @@ router.get("/fetchUserCount",verifyAccess({READ_PERMS:"READ_ALL_USERS"}),async (
    }
 )
 
-// GET to /api/roles/fetchAuthUser
+// GET to /api/users/fetchAuthUser
 // res = {name:<username>,id:<userid>,role:<roleid>,roleName:<roleName>,perms:{rperms:[],aperms:[]}}
 router.get("/fetchAuthUser",async (req,res) => {
     const uid = req.auth.id;
