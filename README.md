@@ -3,4 +3,4 @@ College 4th Sem Project
 
 How to build and run the application
 
-`cd policeportal;npm i && cd ../vmapcrimes_backend/;npm i`
+```git clone https://github.com/JA3G3R/VMapCrimes && cd VMapCrimes &&npm i && /policeportal && npm i && cd ../vmapcrimes_backend/ && npm i && cd ../ && npm start ```

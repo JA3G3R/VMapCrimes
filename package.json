@@ -2,5 +2,7 @@
   "dependencies": {
     "concurrently": "^7.6.0",
     "react-leaflet": "^4.2.0"
-  }
+  },
+  "scripts": {  "start" : "concurrently \"cd vmapcrimes_backend && npm start \" \"cd policeportal && npm start  \""
+}
 }

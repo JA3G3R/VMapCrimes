@@ -39,6 +39,7 @@ useEffect(()=>{
             navigate("/", {replace:true})
             document.cookie=`auth-token=${loginRes.result.auth}`
         }
+        setSubmitted(true)
     }
 
     return(
